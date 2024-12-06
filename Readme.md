@@ -22,8 +22,11 @@ The OpenBW part of the website needs to be built using emscripten. A Dockerized 
 We are using an old version of emscripten (via its Docker image). tscmoo made an attempt to get it working on a new version of emscripten, but ran into some difficulties:
 
 > i think i figured out that the choppy audio i was having is due to it using an emscripten-built native version of sdl mixer, whereas the one you built uses SDL1 mixer (even though we ask for sdl 2), which emscripten has an implementation of built in javascript (so it uses the browser api to play audio, and doesn't need to feed the chunks with specific timing since the browser takes care of it)
+
 > this also gives worse performance - the native javascript api will always be faster than some native webassembly code
+
 > there supposedly is a way to use the sdl 1 library in the newest version of emscripten, too, and i've tried but keep getting various linker errors and such that i haven't figured out
+
 > the newer emscripten version also requires some small code changes
 
 We will therefore stick with the old version of emscripten for the time being.
