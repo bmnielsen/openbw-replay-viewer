@@ -1,3 +1,5 @@
+let volumeSettings = JSON.parse(localStorage.volumeSettings || '{"level":0.5,"muted":false}');
+
 jQuery(document).ready( function($) {	
 	
 	var ctx = document.getElementById("infoChartCanvas");
@@ -195,19 +197,47 @@ jQuery(document).ready( function($) {
 	$('.volume').mouseleave(function() {
 	    $('#volume-slider-wrapper').css("display", "none");
 	});
+
+	let volumeInitialized = false;
 	$('#volume-slider').on('moved.zf.slider', function() {
-		volume_index = document.getElementById("volumeOutput").value / 100;
-		if (volume_index > 0) {
-			$('#rv-rc-sound').addClass('rv-rc-sound');
-			$('#rv-rc-sound').removeClass('rv-rc-muted');
-		} else {
+		if (!volumeInitialized) return;
+
+		volumeSettings.level = document.getElementById("volumeOutput").value / 100;
+		volumeSettings.muted = (volumeSettings.level == 0);
+		localStorage.volumeSettings = JSON.stringify(volumeSettings);
+
+		if (volumeSettings.muted) {
 			$('#rv-rc-sound').removeClass('rv-rc-sound');
 			$('#rv-rc-sound').addClass('rv-rc-muted');
+		} else {
+			$('#rv-rc-sound').addClass('rv-rc-sound');
+			$('#rv-rc-sound').removeClass('rv-rc-muted');
 		}
 		if (main_has_been_called) {
-			Module.set_volume(volume_index);
+			Module.set_volume(volumeSettings.level);
 		}
 	});
+
+	// Perform initial volume setup
+	// We do this with a setTimeout because the Foundation slider seems to be borked - it doesn't correctly set the handle position and
+	// resets it if we do this too early
+	$('#volumeOutput').val(volumeSettings.level * 100).trigger('change');
+	setTimeout(() => {
+		$('#volume-slider-handle').css('top', '' + (88.8 * volumeSettings.level) + '%');
+		if (volumeSettings.muted) {
+			$('#rv-rc-sound').removeClass('rv-rc-sound');
+			$('#rv-rc-sound').addClass('rv-rc-muted');
+		} else {
+			$('#rv-rc-sound').addClass('rv-rc-sound');
+			$('#rv-rc-sound').removeClass('rv-rc-muted');
+		}
+
+		// Also pass to the BW engine if it's already been started (might happen when deep linking)
+		if (main_has_been_called) {
+			Module.set_volume(volumeSettings.muted ? 0 : volumeSettings.level);
+		}
+		volumeInitialized = true;
+	}, 1000);
 	
 	function drag_start(event) {
 	    var style = window.getComputedStyle(event.target, null);
@@ -290,16 +320,16 @@ function play_slower() {
 	update_speed(current_speed / 2);
 }
 
-var volume_index;
 function toggle_sound() {
-	
+
 	$('#rv-rc-sound').toggleClass('rv-rc-sound');
 	$('#rv-rc-sound').toggleClass('rv-rc-muted');
+
+	volumeSettings.muted = $('#rv-rc-sound').hasClass('rv-rc-muted');
+	localStorage.volumeSettings = JSON.stringify(volumeSettings);
 	
-	if ($('#rv-rc-sound').hasClass('rv-rc-sound')) {
-		Module.set_volume(volume_index);
-	} else {
-		Module.set_volume(0);
+	if (main_has_been_called) {
+		Module.set_volume(volumeSettings.muted ? 0 : volumeSettings.level);
 	}
 }
 

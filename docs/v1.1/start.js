@@ -582,6 +582,7 @@ function start_replay(buffer, length) {
     if (!main_has_been_called) {
     	Module.callMain();
     	main_has_been_called = true;
+		Module.set_volume(volumeSettings.muted ? 0 : volumeSettings.level);
     }
     
     _load_replay(buffer, length);
