@@ -114,11 +114,37 @@ jQuery(document).ready( function($) {
 		 case 68: // d
 			 play_slower();
 			 break;
-		 case 83:
-			 toggle_sound();
+		 case 81: // q
+			 ensure_paused();
+			 jump_frames(-10);
+			 break;
+		 case 87: // w
+			 ensure_paused();
+			 jump_frames(-1);
+			 break;
+		 case 69: // e
+			 ensure_paused();
+			 jump_frames(1);
+			 break;
+		 case 82: // r
+			 ensure_paused();
+			 jump_frames(10);
+			 break;
+		 case 88: // x
+			 jump_seconds(-30);
 			 break;
 		 case 8: // backspace
-			 jump_back(10);
+		 case 67: // c
+			 jump_seconds(-10);
+			 break;
+		 case 86: // v
+			 jump_seconds(10);
+			 break;
+		 case 66: // b
+			 jump_seconds(30);
+			 break;
+		 case 83:
+			 toggle_sound();
 			 break;
 		 case 72: // h
 			 $('#quick_help').foundation('open');
@@ -298,9 +324,15 @@ function toggle_info_tab(tab_nr) {
 	 }
 }
 
-function jump_back(seconds) {
+function jump_seconds(seconds) {
 	
-	var frame = Math.max(0, _replay_get_value(2) - 24 * seconds);
+	var frame = Math.max(0, _replay_get_value(2) + 24 * seconds);
+	_replay_set_value(3, frame);
+}
+
+function jump_frames(frames) {
+	
+	var frame = Math.max(0, _replay_get_value(2) + frames);
 	_replay_set_value(3, frame);
 }
 
@@ -341,6 +373,10 @@ function toggle_pause() {
 	update_info_tab();
 	
 	_replay_set_value(1, (_replay_get_value(1) + 1)%2);
+}
+
+function ensure_paused() {
+	_replay_set_value(1, 1);
 }
 
 function update_speed(speed) {

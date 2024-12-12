@@ -415,15 +415,14 @@ function js_pre_main_loop() {
 	resize_canvas(Module.canvas);
 }
 
-var loop_counter = 0;
+var last_update_frame = 0;
 function js_post_main_loop() {
-	
 	var frame = _replay_get_value(2);
-	if (Math.abs(frame - loop_counter) >= 8) {
+	if (Math.abs(frame - last_update_frame) >= (_replay_get_value(1) === 1 ? 1 : Math.max(1, Math.min(8, 4 * _replay_get_value(0))))) {
 	    update_info_bar(frame);
 	    update_info_tab();
 	    update_graphs(frame);
-	    loop_counter = frame;
+	    last_update_frame = frame;
 	}
 }
 
