@@ -85,7 +85,7 @@ jQuery(document).ready( function($) {
 	
 	initialize_canvas(canvas);
 	
-	add_drag_and_drop_listeners(canvas);
+	add_drag_and_drop_listeners(document.body, canvas);
 	document.getElementById("mpq_files").addEventListener("change", on_mpq_specify_select, false);
 	document.getElementById("select_rep_file").addEventListener("change", on_rep_file_select, false);
 	
@@ -112,13 +112,17 @@ function initialize_canvas(canvas) {
 	canvas.style.height = '300px';
 	canvas.width = '400';
 	canvas.style.width = '400px';
+	canvas.style.position = 'relative';
+	canvas.style.top = 'calc(50% - 150px)';
 	
 	if (ajax_object.replay_file == null) {
 		
 		var context = canvas.getContext("2d");
 		context.fillStyle = "black";
 		context.font = "24px Arial";
-		context.fillText("Drop your replay file here", 70, 140);
+		context.textAlign = "center";
+		context.fillText("Drop a replay file", 200, 130);
+		context.fillText("anywhere on the page", 200, 160);
 	// } else {
 		
 	// 	resize_canvas(canvas);
@@ -291,7 +295,7 @@ function on_mpq_specify_select(e) {
     }
 }
 
-function add_drag_and_drop_listeners(element) {
+function add_drag_and_drop_listeners(element, canvas) {
 
 	element.addEventListener("dragover", function(e) {
 	    e.stopPropagation();
@@ -303,14 +307,14 @@ function add_drag_and_drop_listeners(element) {
 	    e.stopPropagation();
 	    e.preventDefault();
 	    var files = e.dataTransfer.files;
-	    load_replay_file(files, element);
+	    load_replay_file(files, canvas);
 	}, false);
 }
 
 /*****************************
  * Helper functions
  *****************************/
-function load_replay_file(files, element) {
+function load_replay_file(files, canvas) {
 	if (files.length != 1) return;
     Module.print("loading replay from file " + files[0].name);
     var reader = new FileReader();
@@ -325,7 +329,7 @@ function load_replay_file(files, element) {
                     _free(buf);
                 } else {
                     load_replay_data_arr = arr;
-                    print_to_canvas(files[0].name, 15, 80, element);
+                    print_to_canvas(files[0].name, 15, 80, canvas);
                     if (has_all_files()) {
                     	on_read_all_done();
                     }
@@ -342,6 +346,7 @@ function resize_canvas(canvas) {
     canvas.style.position = "absolute";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
+	canvas.style.top = "";
     _ui_resize(canvas.parentElement.clientWidth, canvas.parentElement.clientHeight);
 
 	var ctx = document.getElementById("graphs_tab");
