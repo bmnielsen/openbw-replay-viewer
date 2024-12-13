@@ -113,7 +113,7 @@ function initialize_canvas(canvas) {
 	canvas.width = '400';
 	canvas.style.width = '400px';
 	canvas.style.position = 'relative';
-	canvas.style.top = 'calc(50% - 150px)';
+	canvas.style.top = 'calc(40% - 120px)';
 	
 	if (ajax_object.replay_file == null) {
 		

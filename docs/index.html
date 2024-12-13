@@ -36,7 +36,7 @@
     <div class="widget widget_replay_viewer_widget">		
     
             <div id="canvas-area" class="canvas-area">
-                <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300" width="400" style="height: 300px; width: 400px;"></canvas>
+                <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300" width="400" style="height: 300px; width: 400px; position: relative; top: calc(40% - 120px)"></canvas>
                             <aside draggable="true" id="info_tab" class="info_tab">
                 <ul class="tabs" data-tabs="2el777-tabs" id="info-tabs">
                     <li class="tabs-title is-active" role="presentation"><a id="tab_link1" href="#info_tab_panel1" aria-selected="true" role="tab" aria-controls="info_tab_panel1">Production</a></li>
@@ -513,7 +513,7 @@
     var ajax_object = {"replay_file":new URLSearchParams(window.location.search).get('rep')};
     /* ]]> */
     </script>
-    <script type="text/javascript" src="v1.2/start.js?ver=1.2.1"></script>
+    <script type="text/javascript" src="v1.2/start.js?ver=1.2.2"></script>
     <script type="text/javascript" src="v1.2/openbw.js"></script>
     
     
