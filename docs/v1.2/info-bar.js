@@ -1,3 +1,4 @@
+const fps = (1000 / 42);
 let volumeSettings = JSON.parse(localStorage.volumeSettings || '{"level":0.5,"muted":false}');
 
 jQuery(document).ready( function($) {	
@@ -97,77 +98,102 @@ jQuery(document).ready( function($) {
 	        }
 	    }
 	});
+
+	// Ensure keyboard events on input elements are not swallowed by OpenBW
+	$("input, textarea, select").on("keyup keydown keypress", function(e) {
+		// Pressing enter should trigger submission if a submit button is attached
+		if (e.type === 'keyup' && (e.keyCode || e.which) === 13) {
+			let submitButtonId = $(e.target).data('submit-button');
+			if (submitButtonId) {
+				$('#' + submitButtonId).trigger('click');
+			}
+		}
+		
+		e.stopPropagation();
+		return true;
+	});
 	
 	$(document).keyup(function(e) {
-		 var code = e.keyCode || e.which;
-		 
-		 switch(code) {
-		 case 32: // space
-		 case 80: // p
-			 toggle_pause();
-			 break;
-		 case 65: // a
-		 case 85: // u
-			 play_faster();
-			 break;
-		 case 90: // z
-		 case 68: // d
-			 play_slower();
-			 break;
-		 case 81: // q
-			 ensure_paused();
-			 jump_frames(-10);
-			 break;
-		 case 87: // w
-			 ensure_paused();
-			 jump_frames(-1);
-			 break;
-		 case 69: // e
-			 ensure_paused();
-			 jump_frames(1);
-			 break;
-		 case 82: // r
-			 ensure_paused();
-			 jump_frames(10);
-			 break;
-		 case 88: // x
-			 jump_seconds(-30);
-			 break;
-		 case 8: // backspace
-		 case 67: // c
-			 jump_seconds(-10);
-			 break;
-		 case 86: // v
-			 jump_seconds(10);
-			 break;
-		 case 66: // b
-			 jump_seconds(30);
-			 break;
-		 case 83:
-			 toggle_sound();
-			 break;
-		 case 72: // h
-			 $('#quick_help').foundation('open');
-			 break;
-		 case 78: // n
-			 $('.rv-rc-progress-bar>div').toggle();
-			 break;
-		 case 49: // 1
-			 toggle_info_tab(1);
-			 break;
-		 case 50: // 2
-			 toggle_info_tab(2);
-			 break;
-		 case 51: // 3
-			 toggle_info_tab(3);
-			 break;
-		 case 52: // 4
-			 toggle_info_tab(4);
-			 break;
-		 case 53: // 5
-			 toggle_graphs(1);
-			 break;
-		 }
+		var code = e.keyCode || e.which;
+
+		// Commands that work before and during a replay
+		switch(code) {
+			case 83:
+				toggle_sound();
+				return false;
+			case 72: // h
+				$('#quick_help').foundation('open');
+				return false;
+			case 78: // n
+				$('.rv-rc-progress-bar>div').toggle();
+				return false;
+		}
+
+		if (!main_has_been_called) return true;
+			
+		// Commands that only work during a replay
+		switch(code) {
+			case 32: // space
+			case 80: // p
+				toggle_pause();
+				return false;
+			case 65: // a
+			case 85: // u
+				play_faster();
+				return false;
+			case 90: // z
+			case 68: // d
+				play_slower();
+				return false;
+			case 81: // q
+				ensure_paused();
+				jump_frames(-10);
+				return false;
+			case 87: // w
+				ensure_paused();
+				jump_frames(-1);
+				return false;
+			case 69: // e
+				ensure_paused();
+				jump_frames(1);
+				return false;
+			case 82: // r
+				ensure_paused();
+				jump_frames(10);
+				return false;
+			case 88: // x
+				jump_seconds(-30);
+				return false;
+			case 8: // backspace
+			case 67: // c
+				jump_seconds(-10);
+				return false;
+			case 86: // v
+				jump_seconds(10);
+				return false;
+			case 66: // b
+				jump_seconds(30);
+				return false;
+			case 71: // g
+				open_goto_modal();
+				return false;
+			case 49: // 1
+				toggle_info_tab(1);
+				return false;
+			case 50: // 2
+				toggle_info_tab(2);
+				return false;
+			case 51: // 3
+				toggle_info_tab(3);
+				return false;
+			case 52: // 4
+				toggle_info_tab(4);
+				return false;
+			case 53: // 5
+				toggle_graphs(1);
+				return false;
+		}			
+		return true;
 	});
 	
 	$('#game-slider-handle').mousedown(function(){
@@ -326,7 +352,7 @@ function toggle_info_tab(tab_nr) {
 
 function jump_seconds(seconds) {
 	
-	var frame = Math.max(0, _replay_get_value(2) + 24 * seconds);
+	var frame = Math.max(0, _replay_get_value(2) + Math.round(fps * seconds));
 	_replay_set_value(3, frame);
 }
 
@@ -334,6 +360,40 @@ function jump_frames(frames) {
 	
 	var frame = Math.max(0, _replay_get_value(2) + frames);
 	_replay_set_value(3, frame);
+}
+
+var gotoModalBindingsDone = false;
+var pauseStateBeforeModal;
+function open_goto_modal() {
+	pauseStateBeforeModal = _replay_get_value(1);
+	ensure_paused();
+	if (!gotoModalBindingsDone) {
+		$('#goto').on('closed.zf.reveal', function () {
+			_replay_set_value(1, pauseStateBeforeModal);
+		});
+		$('#goto-frame-submit').on('click', function () {
+			_replay_set_value(3, Math.max(0, $('#goto-frame-value').val()));
+			$('#goto').foundation('close');
+		});
+		$('#goto-time-submit').on('click', function () {
+			let timeStr = '' + $('#goto-time-value').val();
+			let matches = [...timeStr.matchAll(/^(?:([0-9]+):)?([0-5]{0,1}[0-9]):([0-5][0-9])$/g)][0];
+			if (!matches || matches.length != 4) {
+				// Would be nice to show an error to the user here
+				console.error("Error parsing time", timeStr, matches);
+				return;
+			}
+
+			let seconds = parseInt(matches[3]) + 60*parseInt(matches[2]);
+			if (matches[1]) seconds += 3600*parseInt(matches[1]);
+			_replay_set_value(3, Math.round(seconds * fps));
+
+			$('#goto').foundation('close');
+		});
+
+		gotoModalBindingsDone = true;
+	}
+	$('#goto').foundation('open');
 }
 
 function play_faster() {
@@ -566,9 +626,9 @@ function update_production_tab(incomplete_units) {
     }
 }
 
-function update_timer(sec_num) {
+function update_timer(frame) {
 	
-	sec_num = sec_num  * 42 / 1000;
+	var sec_num = frame  * 42 / 1000;
 	var hours   = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
     var seconds = Math.floor(sec_num - (hours * 3600) - (minutes * 60));
@@ -582,6 +642,9 @@ function update_timer(sec_num) {
     	time = hours + ':' + time;
     }
 	document.getElementById("rv-rc-timer").innerHTML = "time: " + time;
+	
+	$("#goto-frame-value").val(frame);
+	$("#goto-time-value").val(time);
 }
 
 var isDown = false;
