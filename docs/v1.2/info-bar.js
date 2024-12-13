@@ -122,7 +122,7 @@ jQuery(document).ready( function($) {
 				toggle_sound();
 				return false;
 			case 72: // h
-				$('#quick_help').foundation('open');
+				$('#quick_help').foundation($('#quick_help').is(':visible') ? 'close' : 'open');
 				return false;
 			case 78: // n
 				$('.rv-rc-progress-bar>div').toggle();
@@ -175,7 +175,11 @@ jQuery(document).ready( function($) {
 				jump_seconds(30);
 				return false;
 			case 71: // g
-				open_goto_modal();
+				if ($('#goto').is(':visible')) {
+					$('#goto').foundation('close');
+				} else {
+					open_goto_modal();
+				}
 				return false;
 			case 49: // 1
 				toggle_info_tab(1);
