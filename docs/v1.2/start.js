@@ -339,15 +339,59 @@ function load_replay_file(files, canvas) {
         reader.readAsArrayBuffer(files[0]);
 }
 
+let currentSize = {
+	width: 0,
+	height: 0,
+	zoomFactor: 1.0,
+};
+
 function resize_canvas(canvas) {
-	
+
+	const canvasArea = $('#canvas-area');
+	let width = canvasArea.width();
+	let height = canvasArea.height();
+	if (currentSize.width === width && currentSize.height === height && currentSize.zoomFactor === zoomFactor) {
+		return;
+	}
+
+	currentSize = {
+		width: width,
+		height: height,
+	};
+
+	$('.widget_replay_viewer_widget').css({
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+	})
+
     canvas.style.border = 0;
     canvas.parentElement.style.position = "relative";
     canvas.style.position = "absolute";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 	canvas.style.top = "";
-    _ui_resize(canvas.parentElement.clientWidth, canvas.parentElement.clientHeight);
+
+	// Reset zoom scale before setting the canvas size, since otherwise emscripten/OpenBW will see the size difference and override it
+	$('#canvas-zoom-outer').css({
+		'transform': 'scale(1.0)',
+		'transform-origin': 'top left',
+	});
+
+	let scaledWidth = Math.ceil(width / zoomFactor);
+	let scaledHeight = Math.ceil(height / zoomFactor);
+
+	$('#canvas-zoom-inner').css({
+		'width': scaledWidth,
+		'height': scaledHeight,
+	});
+
+    _ui_resize(scaledWidth, scaledHeight);
+
+	$('#canvas-zoom-outer').css({
+		'transform': 'scale(' + zoomFactor + ')',
+		'transform-origin': 'top left',
+	});
 
 	var ctx = document.getElementById("graphs_tab");
 	ctx.style.width = "70%";
@@ -578,6 +622,7 @@ var first_frame_played = false;
 function start_replay(buffer, length) {
 	
 	$('#top').css('display', 'none');
+	$('#zoom-buttons').css('display', 'flex');
     close_modal();
     
 	resize_canvas(Module.canvas);

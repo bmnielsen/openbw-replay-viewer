@@ -1,5 +1,6 @@
 const fps = (1000 / 42);
 let volumeSettings = JSON.parse(localStorage.volumeSettings || '{"level":0.5,"muted":false}');
+let zoomFactor = 1.0;
 
 jQuery(document).ready( function($) {	
 	
@@ -181,6 +182,12 @@ jQuery(document).ready( function($) {
 					open_goto_modal();
 				}
 				return false;
+			case 84: // t
+				zoomOut();
+				return false;
+			case 89: // y
+				zoomIn();
+				return false;
 			case 49: // 1
 				toggle_info_tab(1);
 				return false;
@@ -218,6 +225,14 @@ jQuery(document).ready( function($) {
 		document.getElementById("canvas").innerWidth = window.innerWidth;
 		document.getElementById("canvas").innerHeight = window.innerHeight - 147;
 	});
+
+	$('#zoom-in').on('click', function() {
+		zoomIn();
+	})
+	
+	$('#zoom-out').on('click', function() {
+		zoomOut();
+	})
 	
 	$('#game-slider').on('moved.zf.slider', function() {
 		if (isDown || isClicked) {
@@ -316,6 +331,18 @@ jQuery(document).ready( function($) {
 	update_army_tab([]);
 	$('#volume-slider-wrapper').css("display", "none");
 })	
+
+function zoomOut() {
+	if (zoomFactor > 0.5) {
+		zoomFactor *= (1 / 1.1);
+		resize_canvas(Module.canvas);
+	}
+}
+
+function zoomIn() {
+	zoomFactor *= 1.1;
+	resize_canvas(Module.canvas);
+}
 
 var infoChart;
 

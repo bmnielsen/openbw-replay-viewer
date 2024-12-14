@@ -35,9 +35,17 @@
     
     <div class="widget widget_replay_viewer_widget">		
     
-            <div id="canvas-area" class="canvas-area">
-                <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300" width="400" style="height: 300px; width: 400px; position: relative; top: calc(40% - 120px)"></canvas>
-                            <aside draggable="true" id="info_tab" class="info_tab">
+            <div id="canvas-area" class="canvas-area" style="overflow: hidden;">
+                <div id="canvas-zoom-outer" style="width: 100%; height: 100%;">
+                    <div id="canvas-zoom-inner" style="width: 100%; height: 100%;">
+                        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300" width="400" style="height: 300px; width: 400px; position: relative; top: calc(40% - 120px)"></canvas>
+                    </div>
+                </div>
+                <div id="zoom-buttons" style="position: absolute; bottom: 0; right: 16px; display: none; flex-flow: column nowrap; z-index:100;">
+                    <button class="button secondary small" id="zoom-in">+</button>
+                    <button class="button secondary small" id="zoom-out">-</button>
+                </div>
+                <aside draggable="true" id="info_tab" class="info_tab">
                 <ul class="tabs" data-tabs="2el777-tabs" id="info-tabs">
                     <li class="tabs-title is-active" role="presentation"><a id="tab_link1" href="#info_tab_panel1" aria-selected="true" role="tab" aria-controls="info_tab_panel1">Production</a></li>
                     <li class="tabs-title" role="presentation"><a id="tab_link2" href="#info_tab_panel2" role="tab" aria-controls="info_tab_panel2" aria-selected="false">Army</a></li>
@@ -442,6 +450,10 @@
     <td>Move up/down/left/right.</td>
     </tr>
     <tr>
+    <td>'t', 'y'</td>
+    <td>Zoom out/in</td>
+    </tr>
+    <tr>
     <td>‘1’, ‘2’, ‘3’, ‘4’</td>
     <td>show/hide production / army composition / upgrades / research tab.</td>
     </tr>
@@ -507,13 +519,13 @@
         </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js?ver=1"></script>
-    <script type="text/javascript" src="v1.2/info-bar.js?ver=1.2.1"></script>
+    <script type="text/javascript" src="v1.2/info-bar.js?ver=1.2.2"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
     var ajax_object = {"replay_file":new URLSearchParams(window.location.search).get('rep')};
     /* ]]> */
     </script>
-    <script type="text/javascript" src="v1.2/start.js?ver=1.2.2"></script>
+    <script type="text/javascript" src="v1.2/start.js?ver=1.2.3"></script>
     <script type="text/javascript" src="v1.2/openbw.js"></script>
     
     
