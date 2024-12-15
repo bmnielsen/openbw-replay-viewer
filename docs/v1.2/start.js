@@ -347,16 +347,15 @@ let currentSize = {
 
 function resize_canvas(canvas) {
 
-	const canvasArea = $('#canvas-area');
-	let width = canvasArea.width();
-	let height = canvasArea.height();
-	if (currentSize.width === width && currentSize.height === height && currentSize.zoomFactor === zoomFactor) {
+	const canvasArea = document.getElementById('canvas-area');
+	const unscaledSize = canvasArea.getBoundingClientRect();
+	if (currentSize.width === unscaledSize.width && currentSize.height === unscaledSize.height && currentSize.zoomFactor === zoomFactor) {
 		return;
 	}
 
 	currentSize = {
-		width: width,
-		height: height,
+		width: unscaledSize.width,
+		height: unscaledSize.height,
 	};
 
 	$('.widget_replay_viewer_widget').css({
@@ -378,8 +377,8 @@ function resize_canvas(canvas) {
 		'transform-origin': 'top left',
 	});
 
-	let scaledWidth = Math.ceil(width / zoomFactor);
-	let scaledHeight = Math.ceil(height / zoomFactor);
+	let scaledWidth = Math.ceil(unscaledSize.width / zoomFactor);
+	let scaledHeight = Math.ceil(unscaledSize.height / zoomFactor);
 
 	$('#canvas-zoom-inner').css({
 		'width': scaledWidth,
