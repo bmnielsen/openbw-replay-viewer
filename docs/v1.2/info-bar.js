@@ -1,6 +1,6 @@
 const fps = (1000 / 42);
 let volumeSettings = JSON.parse(localStorage.volumeSettings || '{"level":0.5,"muted":false}');
-let zoomFactor = 1.0;
+let zoomLevel = parseInt(localStorage.zoomLevel || '0');
 
 jQuery(document).ready( function($) {	
 	
@@ -333,14 +333,16 @@ jQuery(document).ready( function($) {
 })	
 
 function zoomOut() {
-	if (zoomFactor > 0.5) {
-		zoomFactor *= (1 / 1.1);
+	if (zoomLevel >= -8) {
+		zoomLevel--;
+		localStorage.zoomLevel = '' + zoomLevel;
 		resize_canvas(Module.canvas);
 	}
 }
 
 function zoomIn() {
-	zoomFactor *= 1.1;
+	zoomLevel++;
+	localStorage.zoomLevel = '' + zoomLevel;
 	resize_canvas(Module.canvas);
 }
 

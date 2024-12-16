@@ -342,27 +342,23 @@ function load_replay_file(files, canvas) {
 let currentSize = {
 	width: 0,
 	height: 0,
-	zoomFactor: 1.0,
+	zoomLevel: 0,
 };
 
 function resize_canvas(canvas) {
 
 	const canvasArea = document.getElementById('canvas-area');
 	const unscaledSize = canvasArea.getBoundingClientRect();
-	if (currentSize.width === unscaledSize.width && currentSize.height === unscaledSize.height && currentSize.zoomFactor === zoomFactor) {
+	if (currentSize.width === unscaledSize.width && currentSize.height === unscaledSize.height && currentSize.zoomLevel === zoomLevel) {
 		return;
 	}
+
+	let zoomFactor = 1.0 * Math.pow(1.1, zoomLevel);
 
 	currentSize = {
 		width: unscaledSize.width,
 		height: unscaledSize.height,
 	};
-
-	$('.widget_replay_viewer_widget').css({
-		'position': 'absolute',
-		'width': '100%',
-		'height': '100%',
-	})
 
     canvas.style.border = 0;
     canvas.parentElement.style.position = "relative";
@@ -622,11 +618,27 @@ function start_replay(buffer, length) {
 	
 	$('#top').css('display', 'none');
 	$('#zoom-buttons').css('display', 'flex');
+	$('.widget_replay_viewer_widget').css({
+		'position': 'absolute',
+		'width': '100%',
+		'height': '100%',
+	})
+
     close_modal();
     
+	let zoom = zoomLevel;
+	zoomLevel = 0;
 	resize_canvas(Module.canvas);
+
+	// For some reason the zoom level can't be correctly on the first resize, so schedule another one if we need to zoom
+	if (zoom !== 0) {
+		setTimeout(function() {
+			zoomLevel = zoom;
+			resize_canvas(Module.canvas);
+		}, 0);
+	}
+
     Module.print("calling main");
-    
     if (!main_has_been_called) {
     	Module.callMain();
     	main_has_been_called = true;
