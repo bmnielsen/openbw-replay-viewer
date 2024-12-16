@@ -101,6 +101,53 @@ jQuery(document).ready( function($) {
 		
 		print_to_modal("Specify MPQ files", C_SPECIFY_MPQS_MESSAGE, true);
 	});
+
+	let touchHandler = function(e) {
+		e.preventDefault();
+
+		const touch = e.changedTouches[0];
+
+		let triggerMouseEvent = function(mouseEventType, leftButton) {
+			let mouseEvent = new MouseEvent(mouseEventType, {
+				screenX: touch.screenX,
+				screenY: touch.screenY,
+				clientX: touch.clientX,
+				clientY: touch.clientY,
+				button: leftButton ? 0 : 2,
+				buttons: leftButton ? 1 : 2,
+			});
+			Module.canvas.dispatchEvent(mouseEvent);
+			// console.log("Dispatched", mouseEventType, leftButton, mouseEvent);
+		};
+
+		switch (e.type) {
+			case 'touchstart':
+				triggerMouseEvent('click', true);
+				triggerMouseEvent('mousedown', false);
+				break;
+			case 'touchmove':
+				triggerMouseEvent('mousemove', false);
+				break;
+			case 'touchend':
+			case 'touchcancel':
+				triggerMouseEvent('mouseup', false);
+				break;
+		}
+		// console.log(e.type, e);
+	};
+	// Module.canvas.addEventListener("touchstart", touchHandler);
+	// Module.canvas.addEventListener("touchmove", touchHandler);
+	// Module.canvas.addEventListener("touchend", touchHandler);
+	// Module.canvas.addEventListener("touchcancel", touchHandler);
+
+	let logHandler = function(e) {
+		if (e.buttons === 0) return;
+		console.log(e.type, e.buttons, e.screenX, e.screenY, e.clientX, e.clientY);
+	};
+	Module.canvas.addEventListener("mousedown", logHandler);
+	Module.canvas.addEventListener("mousemove", logHandler);
+	Module.canvas.addEventListener("mouseup", logHandler);
+
 })
 
 /**
