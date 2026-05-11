@@ -30,7 +30,7 @@ var C_RACE = 13;
 var C_APM = 14;
 
 var C_MPQ_FILENAMES = ["StarDat.mpq", "BrooDat.mpq", "Patch_rt.mpq"];
-var C_MPQ_BASE_URL = (window.OPENBW_MPQ_BASE_URL || "/bw").replace(/\/$/, "");
+var C_MPQ_BASE_URL = (window.OPENBW_MPQ_BASE_URL || "https://dgant.github.io/mpqs").replace(/\/$/, "");
 var C_DEFAULT_MPQ_SOURCES = [C_MPQ_BASE_URL + "/STARDAT.MPQ", C_MPQ_BASE_URL + "/BROODAT.MPQ", C_MPQ_BASE_URL + "/patch_rt.mpq"];
 var C_MUSIC_BASE_URL = (window.OPENBW_MUSIC_BASE_URL || (
 	(window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost")
