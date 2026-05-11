@@ -1,13 +1,14 @@
 <html class="" lang="en-US"><head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Replay Viewer – OpenBW</title>
+            <title>StarCraft Replay Viewer</title>
+    <link rel="icon" href="data:,">
     <link rel="dns-prefetch" href="https://ajax.googleapis.com/">
     <link rel="dns-prefetch" href="https://s.w.org/">
     <link rel="stylesheet" id="main-stylesheet-css" href="foundation.css?ver=2.6.1" type="text/css" media="all">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js?ver=2.1.0"></script>
         <meta class="foundation-mq"></head>
-        <body class="page-template page-template-page-templates page-template-replay-viewer page-template-page-templatesreplay-viewer-php page page-id-39 offcanvas" data-whatinput="mouse">
+        <body class="page-template page-template-page-templates page-template-replay-viewer page-template-page-templatesreplay-viewer-php page page-id-39 offcanvas pregame-active pregame-boot-pending" data-whatinput="mouse">
     
         <section class="container">
             
@@ -15,42 +16,58 @@
     
         
                 
-          <div id="top" class="callout secondary">
-    <p id="top_text">
-    </p><p>Only replays from StarCraft version 1.16.1 are supported. Replays where one or more players use the built-in AI are not supported. More information about OpenBW is available <a href="https://web.archive.org/web/20240930220920/http://www.openbw.com/">here</a>.</p>
-    <div class="row">
-    <div class="small-2 column">
-       <button id="specify_mpqs_button" type="button" class="success button">Specify MPQ Files</button>
-    </div>
-    <!-- <div class="small-2 column">
-       <button id="play_demo_button" type="button" class="success button">Play Demo Replay</button>
-    </div> -->
-    <div class="small-2 column end">
-       <label id="select_replay_label" for="select_rep_file" class="success button">Select Replay</label><br>
-       <input id="select_rep_file" type="file" class="show-for-sr" accept=".rep">
-    </div>
-    </div>
-    <p>Open the <a data-open="quick_help" aria-controls="quick_help" aria-haspopup="true" tabindex="0">quick help</a> by pressing ‘h’. Submit <a href="https://github.com/bmnielsen/openbw-replay-viewer/discussions">feature requests</a> or <a href="https://github.com/bmnielsen/openbw-replay-viewer/issues">bug reports</a> on GitHub.
-    </p></div>
+          <div id="top" style="display:none;"></div>
     
     <div class="widget widget_replay_viewer_widget">		
     
             <div id="canvas-area" class="canvas-area" style="overflow: hidden;">
+                <div id="pregame-overlay" class="pregame-screen">
+                    <div class="pregame-dropzone">
+                       <div class="pregame-drop-copy">Drop a replay file here</div>
+                       <div class="pregame-drop-divider"><span></span><strong>OR</strong><span></span></div>
+                       <label id="select_replay_label" for="select_rep_file" class="success button pregame-browse-button">Browse files</label><br>
+                       <input id="select_rep_file" type="file" class="show-for-sr" accept=".rep">
+                    </div>
+                    <div class="pregame-notes">
+                      <h2>Watch replays</h2>
+                      <ul>
+                        <li><a data-open="quick_help" aria-controls="quick_help" aria-haspopup="true" tabindex="0"><u>H</u>otkeys</a></li>
+                        <li>StarCraft 1.16.1 (not Remastered)</li>
+                        <li>Built-in AI not supported</li>
+                        <li><a href="https://github.com/dgant/openbw-replay-viewer/issues">Report bugs</a></li>
+                      </ul>
+                    </div>
+                </div>
                 <div id="canvas-zoom-outer" style="width: 100%; height: 100%;">
                     <div id="canvas-zoom-inner" style="width: 100%; height: 100%;">
                         <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300" width="400" style="height: 300px; width: 400px; position: relative; top: calc(40% - 120px)"></canvas>
                     </div>
                 </div>
-                <div id="zoom-buttons" style="position: absolute; bottom: 0; right: 16px; display: none; flex-flow: column nowrap; z-index:100;">
-                    <button class="button secondary small" id="zoom-in">+</button>
-                    <button class="button secondary small" id="zoom-out">-</button>
+                <div id="zoom-buttons" style="position: absolute; bottom: 16px; right: 16px; display: none; z-index:100;">
+                    <button class="button secondary small" id="zoom-in" title="Zoom in">+</button>
+                    <button id="rv-rc-force-colors" type="button" class="rv-rc-force-colors" title="Force red vs blue colors"></button>
+                    <button class="button secondary small" id="zoom-out" title="Zoom out">-</button>
+                    <button id="rv-rc-observer" type="button" class="rv-rc-observer is-enabled" title="Toggle auto observer"></button>
+                    <button id="rv-rc-fow" type="button" class="rv-rc-fow is-enabled" title="Toggle fog of war"></button>
+                </div>
+                <div id="viewport-export" style="position: absolute; top: 16px; right: 16px; display: none; z-index: 100;">
+                    <button id="rv-rc-export-settings" type="button" class="button success small rv-rc-export-settings" title="Settings"></button>
+                    <button id="rv-rc-open-replay" type="button" class="button success small rv-rc-open-replay" title="Browse files"></button>
+                    <button id="rv-rc-copy-link" type="button" class="button success small rv-rc-copy-link" title="Copy replay link for current frame"></button>
+                    <button id="rv-rc-export" type="button" class="button success small rv-rc-export" title="Export replay video"></button>
+                </div>
+                <div id="playlist-controls" style="position: absolute; bottom: 16px; display: none; z-index: 100;">
+                    <button id="playlist-prev" type="button" class="playlist-nav" title="Previous replay">&#8592;</button>
+                    <button id="playlist-next" type="button" class="playlist-nav" title="Next replay">&#8594;</button>
+                    <span id="playlist-position"></span>
+                    <span id="playlist-name"></span>
                 </div>
                 <aside draggable="true" id="info_tab" class="info_tab">
                 <ul class="tabs" data-tabs="2el777-tabs" id="info-tabs">
                     <li class="tabs-title is-active" role="presentation"><a id="tab_link1" href="#info_tab_panel1" aria-selected="true" role="tab" aria-controls="info_tab_panel1">Production</a></li>
                     <li class="tabs-title" role="presentation"><a id="tab_link2" href="#info_tab_panel2" role="tab" aria-controls="info_tab_panel2" aria-selected="false">Army</a></li>
-                    <li class="tabs-title" role="presentation"><a id="tab_link3" href="#info_tab_panel3" role="tab" aria-controls="info_tab_panel3" aria-selected="false">Upgrades</a></li>
-                    <li class="tabs-title" role="presentation"><a id="tab_link4" href="#info_tab_panel4" role="tab" aria-controls="info_tab_panel4" aria-selected="false">Research</a></li>
+                    <li class="tabs-title" role="presentation"><a id="tab_link3" href="#info_tab_panel3" role="tab" aria-controls="info_tab_panel3" aria-selected="false">Tech</a></li>
+                    <li class="tabs-title info-tab-hidden" role="presentation"><a id="tab_link4" href="#info_tab_panel4" role="tab" aria-controls="info_tab_panel4" aria-selected="false">Research</a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="info-tabs">
                     <div class="tabs-panel is-active" id="info_tab_panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab_link1">
@@ -239,6 +256,7 @@
             <div class="expanded row align-justify infobar-container">
                 <div id="infobar" class="column infobar">
                     <div class="row infobar-text 5player" style="display:none">
+                        <div class="rv_ib_vision" aria-hidden="true"></div>
                         <div class="small-1 columns rv_ib_race" id="map_label1">&nbsp;</div>
                         <div class="small-3 columns rv_ib_nick" id="map1">&nbsp;</div>
                         <div class="small-2 columns rv_ib_supply">SUPPLY</div>
@@ -249,16 +267,18 @@
                         <div class="small-2 columns rv_ib_apm">APM</div>
                     </div>
                     <div class="row infobar-player" id="infobar_row_player1">
+                        <button class="rv_ib_vision is-enabled" id="vision1" type="button" title="Toggle player vision"></button>
                         <div class="small-1 columns rv_ib_race" id="race1">&nbsp;</div>
-                        <div class="small-3 columns rv_ib_nick player_color1" id="nick1">-</div>
-                        <div class="small-2 columns rv_ib_supply" id="supply1">-</div>
-                        <div class="small-1 columns rv_ib_minerals" id="minerals1">-</div>
-                        <div class="small-1 columns rv_ib_gas" id="gas1">-</div>
-                        <div class="small-1 columns rv_ib_worker" id="workers1">-</div>
-                        <div class="small-1 columns rv_ib_army" id="army1">-</div>
-                        <div class="small-2 columns rv_ib_apm" id="apm1">-</div>
+                        <div class="small-3 columns rv_ib_nick player_color1" id="nick1"></div>
+                        <div class="small-2 columns rv_ib_supply" id="supply1"></div>
+                        <div class="small-1 columns rv_ib_minerals" id="minerals1"></div>
+                        <div class="small-1 columns rv_ib_gas" id="gas1"></div>
+                        <div class="small-1 columns rv_ib_worker" id="workers1"></div>
+                        <div class="small-1 columns rv_ib_army" id="army1"></div>
+                        <div class="small-2 columns rv_ib_apm" id="apm1"></div>
                     </div>
                     <div class="row infobar-text 2player">
+                        <div class="rv_ib_vision" aria-hidden="true"></div>
                         <div class="small-1 columns rv_ib_race" id="map_label2">&nbsp;</div>
                         <div class="small-3 columns rv_ib_nick" id="map2">&nbsp;</div>
                         <div class="small-2 columns rv_ib_supply">SUPPLY</div>
@@ -268,85 +288,100 @@
                         <div class="small-1 columns rv_ib_army">ARMY</div>
                         <div class="small-2 columns rv_ib_apm">APM</div>
                     </div>
-                                        <div class="row infobar-player per-player-info2" style="display:none">
+                        <div class="row infobar-player per-player-info2" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision2" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race2">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color2" id="nick2">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply2">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals2">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas2">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers2">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army2">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm2">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color2" id="nick2"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply2"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals2"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas2"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers2"></div>
+                            <div class="small-1 columns rv_ib_army" id="army2"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm2"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info3" style="display:none">
+                        <div class="row infobar-player per-player-info3" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision3" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race3">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color3" id="nick3">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply3">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals3">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas3">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers3">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army3">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm3">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color3" id="nick3"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply3"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals3"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas3"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers3"></div>
+                            <div class="small-1 columns rv_ib_army" id="army3"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm3"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info4" style="display:none">
+                        <div class="row infobar-player per-player-info4" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision4" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race4">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color4" id="nick4">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply4">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals4">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas4">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers4">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army4">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm4">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color4" id="nick4"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply4"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals4"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas4"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers4"></div>
+                            <div class="small-1 columns rv_ib_army" id="army4"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm4"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info5" style="display:none">
+                        <div class="row infobar-player per-player-info5" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision5" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race5">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color5" id="nick5">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply5">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals5">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas5">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers5">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army5">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm5">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color5" id="nick5"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply5"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals5"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas5"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers5"></div>
+                            <div class="small-1 columns rv_ib_army" id="army5"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm5"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info6" style="display:none">
+                        <div class="row infobar-player per-player-info6" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision6" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race6">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color6" id="nick6">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply6">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals6">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas6">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers6">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army6">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm6">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color6" id="nick6"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply6"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals6"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas6"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers6"></div>
+                            <div class="small-1 columns rv_ib_army" id="army6"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm6"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info7" style="display:none">
+                        <div class="row infobar-player per-player-info7" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision7" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race7">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color7" id="nick7">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply7">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals7">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas7">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers7">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army7">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm7">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color7" id="nick7"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply7"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals7"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas7"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers7"></div>
+                            <div class="small-1 columns rv_ib_army" id="army7"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm7"></div>
                         </div>
                     
-                                        <div class="row infobar-player per-player-info8" style="display:none">
+                        <div class="row infobar-player per-player-info8" style="display:none">
+                            <button class="rv_ib_vision is-enabled" id="vision8" type="button" title="Toggle player vision"></button>
                             <div class="small-1 columns rv_ib_race" id="race8">&nbsp;</div>
-                            <div class="small-3 columns rv_ib_nick player_color8" id="nick8">-</div>
-                            <div class="small-2 columns rv_ib_supply" id="supply8">-</div>
-                            <div class="small-1 columns rv_ib_minerals" id="minerals8">-</div>
-                            <div class="small-1 columns rv_ib_gas" id="gas8">-</div>
-                            <div class="small-1 columns rv_ib_worker" id="workers8">-</div>
-                            <div class="small-1 columns rv_ib_army" id="army8">-</div>
-                            <div class="small-2 columns rv_ib_apm" id="apm8">-</div>
+                            <div class="small-3 columns rv_ib_nick player_color8" id="nick8"></div>
+                            <div class="small-2 columns rv_ib_supply" id="supply8"></div>
+                            <div class="small-1 columns rv_ib_minerals" id="minerals8"></div>
+                            <div class="small-1 columns rv_ib_gas" id="gas8"></div>
+                            <div class="small-1 columns rv_ib_worker" id="workers8"></div>
+                            <div class="small-1 columns rv_ib_army" id="army8"></div>
+                            <div class="small-2 columns rv_ib_apm" id="apm8"></div>
                         </div>
                     
                                 </div>
                 
+                <div id="info-dock" class="shrink column bottom-info-dock">
+                    <div class="info-dock-header">
+                        <div class="info-dock-title info-dock-title-production">Production</div>
+                        <div class="info-dock-title">Army</div>
+                        <div class="info-dock-title">Tech</div>
+                    </div>
+                    <div id="info-dock-body"></div>
+                </div>
                 <div class="shrink column replay-control">
                     
                     <div class="row rv-rc-controls">
@@ -369,10 +404,13 @@
                         <div class="small-3 columns">
                             <button id="rv-rc-faster" type="button" class="rv-rc-faster"></button>
                         </div>
+                        <div id="rv-rc-next-embedded-wrap" class="small-3 columns" style="display:none;">
+                            <button id="rv-rc-next-embedded" type="button" class="rv-rc-next-embedded" title="Next replay"></button>
+                        </div>
                     </div>
                     <div class="row rv-rc-timer">
-                        <div id="rv-rc-timer" class="small-6 columns">-</div>
-                        <div id="rv-rc-speed" class="small-6 columns">-</div>
+                        <div id="rv-rc-timer" class="small-6 columns"></div>
+                        <div id="rv-rc-speed" class="small-6 columns"></div>
                     </div>
                     <div class="row rv-rc-progress-bar">
                         <div class="column">
@@ -386,6 +424,7 @@
                 </div>
             </div>
             
+            <div id="viewport-alert" aria-live="polite" aria-atomic="true"></div>
             </div>
           
     
@@ -408,7 +447,7 @@
       <button class="close-button" data-close="" aria-label="Close reveal" type="button"><br>
         <span aria-hidden="true">×</span><br>
       </button><p></p>
-    <h4>Hotkeys / Controls</h4>
+    <h4>Hotkeys</h4>
     <table>
     <thead>
     <tr>
@@ -418,80 +457,51 @@
     </thead>
     <tbody>
     <tr>
-    <td>‘h’</td>
-    <td>Show this help dialog.</td>
+    <td><strong>N</strong></td>
+    <td>No-spoiler mode.</td>
     </tr>
     <tr>
-    <td>‘n’</td>
-    <td>Toggle no-spoiler mode (hides progress bar).</td>
+    <td><strong>A</strong></td>
+    <td>Double playback speed.</td>
     </tr>
     <tr>
-    <td>‘u’ or ‘a’</td>
-    <td>Increase game speed by factor 2.</td>
+    <td><strong>D</strong></td>
+    <td>Halve playback speed.</td>
     </tr>
     <tr>
-    <td>‘d’ or ‘z’</td>
-    <td>Decrease game speed by factor 2.</td>
+    <td><strong>SPACE</strong></td>
+    <td>Pause/unpause.</td>
     </tr>
     <tr>
-    <td>‘p’ or space</td>
-    <td>Pause/unpause the game.</td>
+    <td><strong>Q</strong>, <strong>W</strong>, <strong>E</strong>, <strong>R</strong></td>
+    <td>Pause, then jump -10/-1/+1/+10 frames.</td>
     </tr>
     <tr>
-    <td>'q', 'w', 'e', 'r'</td>
-    <td>Pause and jump -10 frames, -1 frame, +1 frame, +10 frames respectively.</td>
+    <td><strong>Z</strong>, <strong>X</strong>, <strong>C</strong>, <strong>V</strong></td>
+    <td>Jump -30/-10/+10/+30 seconds.</td>
     </tr>
     <tr>
-    <td>'x', 'c' or bksp, 'v', 'b'</td>
-    <td>Jump -30 seconds, -10 seconds, +10 seconds, +30 frames respectively.</td>
+    <td><strong>&larr;</strong> <strong>&uarr;</strong> <strong>&rarr;</strong> <strong>&darr;</strong></td>
+    <td>Pan camera.</td>
     </tr>
     <tr>
-    <td>arrow keys</td>
-    <td>Move up/down/left/right.</td>
+    <td><strong>-</strong>, <strong>+</strong></td>
+    <td>Zoom out/in.</td>
     </tr>
     <tr>
-    <td>'t', 'y'</td>
-    <td>Zoom out/in</td>
+    <td><strong>G</strong></td>
+    <td>Show/hide info graphs.</td>
     </tr>
     <tr>
-    <td>‘1’, ‘2’, ‘3’, ‘4’</td>
-    <td>show/hide production / army composition / upgrades / research tab.</td>
-    </tr>
-    <tr>
-    <td>‘5’</td>
-    <td>show/hide info graphs.</td>
-    </tr>
-    <tr>
-    <td>click in minimap</td>
-    <td>Move to the location indicated in the minimap.</td>
-    </tr>
-    <tr>
-    <td>click on unit / drag box</td>
-    <td>Selects the clicked unit or all units in the box.</td>
-    </tr>
-    <tr>
-    <td>shift-click unit</td>
-    <td>Adds / removes a unit from selection.</td>
-    </tr>
-    <tr>
-    <td>right-click drag</td>
-    <td>Move the map.</td>
-    </tr>
-    <tr>
-    <td>drag and drop</td>
-    <td>Drag and drop a replay file into the replay viewer at any time. Even if another replay is currently playing.</td>
+    <td><strong>J</strong></td>
+    <td>Open the jump dialog.</td>
     </tr>
     </tbody>
     </table>
     </div></div>
     <div class="reveal-overlay" style="display: none;"><div class="reveal" id="rv_modal" data-reveal="2g7eee-reveal" role="dialog" aria-hidden="true" data-yeti-box="rv_modal" data-resize="rv_modal" style="display: none; top: 102px;" tabindex="-1">
-                 <h3>Loading MPQs</h3>
+                 <h3><span class="loading-spinner" aria-hidden="true"></span>Loading files</h3>
                 <p>Patch_rt.mpq: success.</p>
-                <span id="mpq_specify" style="display: none;">
-                    <input id="mpq_files" type="file" accept=".mpq" multiple="">
-                    <ul id="list">
-                    </ul>
-                </span>
                 <button class="close-button" data-close="" aria-label="Close reveal" type="button">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -518,11 +528,79 @@
             </button>
         </div>
     </div>
+    <div class="reveal-overlay" style="display: none;">
+        <div class="reveal" id="export_settings" data-reveal role="dialog" aria-hidden="true" tabindex="-1">
+            <h3>Settings</h3>
+            <div class="settings-tab-buttons">
+                <button id="settings-tab-audio" type="button" class="settings-tab-button is-active">Audio</button>
+                <button id="settings-tab-video" type="button" class="settings-tab-button">Video Clips</button>
+            </div>
+            <div class="settings-panel" data-settings-panel="audio" hidden>
+                <div class="settings-audio-row">
+                    <span class="settings-audio-label">Overall</span>
+                    <button id="audio-overall-toggle" type="button" class="settings-audio-toggle rv-rc-sound" aria-label="Toggle overall audio" aria-pressed="true"></button>
+                    <input id="audio-overall-slider" class="settings-audio-slider" type="range" min="0" max="100" step="1">
+                    <span id="audio-overall-value" class="settings-audio-value">100%</span>
+                </div>
+                <div class="settings-audio-row">
+                    <span class="settings-audio-label">Combat</span>
+                    <button id="audio-combat-toggle" type="button" class="settings-audio-toggle rv-rc-sound" aria-label="Toggle combat audio" aria-pressed="true"></button>
+                    <input id="audio-combat-slider" class="settings-audio-slider" type="range" min="0" max="100" step="1">
+                    <span id="audio-combat-value" class="settings-audio-value">100%</span>
+                </div>
+                <div class="settings-audio-row">
+                    <span class="settings-audio-label">Acknowledgements</span>
+                    <button id="audio-acknowledgements-toggle" type="button" class="settings-audio-toggle rv-rc-sound" aria-label="Toggle acknowledgement audio" aria-pressed="true"></button>
+                    <input id="audio-acknowledgements-slider" class="settings-audio-slider" type="range" min="0" max="100" step="1">
+                    <span id="audio-acknowledgements-value" class="settings-audio-value">100%</span>
+                </div>
+                <div class="settings-audio-row">
+                    <span class="settings-audio-label">Music</span>
+                    <button id="audio-music-toggle" type="button" class="settings-audio-toggle rv-rc-sound" aria-label="Toggle music audio" aria-pressed="true"></button>
+                    <input id="audio-music-slider" class="settings-audio-slider" type="range" min="0" max="100" step="1">
+                    <span id="audio-music-value" class="settings-audio-value">100%</span>
+                </div>
+                <div class="button-group">
+                    <button id="audio-settings-reset" type="button" class="button success">Reset</button>
+                </div>
+            </div>
+            <div class="settings-panel" data-settings-panel="video" hidden>
+                <div class="input-group">
+                    <span class="input-group-label">Width</span>
+                    <input id="export-width" class="input-group-field" type="number" min="1" step="1">
+                    <span class="input-group-label">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-label">Height</span>
+                    <input id="export-height" class="input-group-field" type="number" min="1" step="1">
+                    <span class="input-group-label">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-label">FPS</span>
+                    <input id="export-fps" class="input-group-field" type="number" min="1" step="1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-label">Bitrate</span>
+                    <input id="export-bitrate" class="input-group-field" type="number" min="0.1" step="0.1">
+                    <span class="input-group-label">Mbps</span>
+                </div>
+                <div class="button-group">
+                    <button id="export-settings-reset" type="button" class="button success">Reset</button>
+                </div>
+            </div>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js?ver=1"></script>
+    <script type="text/javascript" src="v1.4/video-export-config.js?ver=1.4.0"></script>
     <script type="text/javascript" src="v1.4/info-bar.js?ver=1.4.0"></script>
+    <script type="text/javascript" src="v1.4/mpq-host-config.js?ver=1.4.0"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
     var ajax_object = {"replay_file":new URLSearchParams(window.location.search).get('rep')};
+    window.OPENBW_WINDOW_TITLE = "StarCraft Replay Viewer";
     /* ]]> */
     </script>
     <script type="text/javascript" src="v1.4/start.js?ver=1.4.0"></script>
