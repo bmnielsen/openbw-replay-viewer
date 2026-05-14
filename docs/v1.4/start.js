@@ -32,11 +32,7 @@ var C_APM = 14;
 var C_MPQ_FILENAMES = ["StarDat.mpq", "BrooDat.mpq", "Patch_rt.mpq"];
 var C_MPQ_BASE_URL = (window.OPENBW_MPQ_BASE_URL || "https://dgant.github.io/mpqs").replace(/\/$/, "");
 var C_DEFAULT_MPQ_SOURCES = [C_MPQ_BASE_URL + "/STARDAT.MPQ", C_MPQ_BASE_URL + "/BROODAT.MPQ", C_MPQ_BASE_URL + "/patch_rt.mpq"];
-var C_MUSIC_BASE_URL = (window.OPENBW_MUSIC_BASE_URL || (
-	(window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost")
-		? "https://dgant.github.io/mpqs/Music"
-		: "/mpqs/Music"
-)).replace(/\/$/, "");
+var C_MUSIC_BASE_URL = (window.OPENBW_MUSIC_BASE_URL || "https://dgant.github.io/mpqs/Music").replace(/\/$/, "");
 var C_MUSIC_TRACKS_BY_RACE = {
 	0: ["17. Zerg 1.mp3", "18. Zerg 2.mp3", "19. Zerg 3.mp3", "20. Zerg (Brood War).mp3"],
 	1: ["03. Terran 1.mp3", "04. Terran 2.mp3", "05. Terran 3.mp3", "06. Terran (Brood War).mp3"],
