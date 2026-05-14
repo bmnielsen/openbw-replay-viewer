@@ -64,6 +64,7 @@ let viewerToggleSettings = (() => {
 let audioCategorySettings = load_audio_category_settings();
 let settingsModalTab = localStorage.settingsModalTab === 'audio' ? 'audio' : 'video';
 let exportState = null;
+let exportDownloadUrl = null;
 let scrubPreviewFrame = null;
 let isDraggingVolumeSlider = false;
 let isSyncingOverallVolumeSlider = false;
@@ -1538,22 +1539,48 @@ function set_export_button_state(isExporting) {
 	$('#rv-rc-export-settings').prop('disabled', isExporting);
 }
 
-function download_export_blob(blob, startFrame, endFrame) {
-	var url = URL.createObjectURL(blob);
-	var link = document.createElement('a');
+function export_filename(startFrame, endFrame) {
 	var clipName = current_replay_player_names().join(' - ') + ', ' + format_clip_timestamp(startFrame) + ' - ' + format_clip_timestamp(endFrame);
 	var safeClipName = clipName.replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim() || 'openbw-replay';
 	var config = current_export_settings();
-	var extension = config.extension;
+	return safeClipName + '.' + config.extension;
+}
+
+function revoke_pending_export_download() {
+	if (!exportDownloadUrl) return;
+	URL.revokeObjectURL(exportDownloadUrl);
+	exportDownloadUrl = null;
+}
+
+function show_export_download_modal(url, filename) {
+	set_modal_presentation();
+	$('#rv_modal h3').text('Video export ready');
+	var content = $('#rv_modal p');
+	content.empty();
+	content.append(document.createTextNode('If the browser did not save the file automatically, use this download button.'));
+	content.append('<br><br>');
+	var manualLink = $('<a class="button success" id="rv-video-download">Download video</a>');
+	manualLink.attr('href', url);
+	manualLink.attr('download', filename);
+	content.append(manualLink);
+	$('#rv_modal').foundation('open');
+}
+
+function download_export_blob(blob, startFrame, endFrame) {
+	revoke_pending_export_download();
+	var url = URL.createObjectURL(blob);
+	exportDownloadUrl = url;
+	var filename = export_filename(startFrame, endFrame);
+	var link = document.createElement('a');
 	link.href = url;
-	link.download = safeClipName + '.' + extension;
+	link.download = filename;
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link);
-	setTimeout(function() {
-		URL.revokeObjectURL(url);
-	}, 1000);
+	show_export_download_modal(url, filename);
 }
+
+window.addEventListener('beforeunload', revoke_pending_export_download);
 
 function restore_export_state(saved) {
 	if (typeof clear_export_render_size === "function") {
