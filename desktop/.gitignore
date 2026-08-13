@@ -1,0 +1,8 @@
+/bin/
+/dist/
+/node_modules/
+/www/neutralino.js
+/www/neutralino.d.ts
+/www/viewer/
+.storage
+*.log

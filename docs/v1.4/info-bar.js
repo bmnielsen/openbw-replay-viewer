@@ -181,14 +181,14 @@ function format_clip_timestamp(frame) {
 }
 
 function persist_volume_settings() {
-	localStorage.volumeSettings = JSON.stringify({
+	localStorage.setItem('volumeSettings', JSON.stringify({
 		level: volumeSettings.level,
 		muted: volumeSettings.muted
-	});
+	}));
 }
 
 function persist_audio_category_settings() {
-	localStorage.audioCategorySettings = JSON.stringify(audioCategorySettings);
+	localStorage.setItem('audioCategorySettings', JSON.stringify(audioCategorySettings));
 }
 
 function sync_audio_controls_ui(skipAudioSliderKey) {
@@ -356,16 +356,16 @@ function current_export_settings() {
 }
 
 function persist_export_settings() {
-	localStorage.exportSettings = JSON.stringify({
+	localStorage.setItem('exportSettings', JSON.stringify({
 		width: exportSettings.width,
 		height: exportSettings.height,
 		fps: exportSettings.fps,
 		videoBitrateMbps: exportSettings.videoBitrateMbps
-	});
+	}));
 }
 
 function persist_settings_modal_tab() {
-	localStorage.settingsModalTab = settingsModalTab;
+	localStorage.setItem('settingsModalTab', settingsModalTab);
 }
 
 function populate_export_settings_form() {
@@ -396,15 +396,15 @@ function reset_export_settings_to_defaults() {
 		fps: defaults.fps,
 		videoBitrateMbps: defaults.videoBitrateMbps
 	};
-	delete localStorage.exportSettings;
+	localStorage.removeItem('exportSettings');
 	populate_export_settings_form();
 }
 
 function reset_audio_settings_to_defaults() {
 	volumeSettings = load_volume_settings();
 	audioCategorySettings = JSON.parse(JSON.stringify(defaultAudioCategorySettings));
-	delete localStorage.volumeSettings;
-	delete localStorage.audioCategorySettings;
+	localStorage.removeItem('volumeSettings');
+	localStorage.removeItem('audioCategorySettings');
 	persist_audio_category_settings();
 	apply_overall_volume_state(0.5, false);
 }
@@ -1084,7 +1084,7 @@ function zoomOut() {
 	var nextZoomLevel = zoomLevel - 1;
 	if (!can_zoom_to(nextZoomLevel)) return;
 	zoomLevel = nextZoomLevel;
-	localStorage.zoomLevel = '' + zoomLevel;
+	localStorage.setItem('zoomLevel', '' + zoomLevel);
 	resize_canvas(Module.canvas);
 	update_zoom_buttons();
 }
@@ -1092,7 +1092,7 @@ function zoomOut() {
 function zoomIn() {
 	if (zoomLevel >= 4) return;
 	zoomLevel++;
-	localStorage.zoomLevel = '' + zoomLevel;
+	localStorage.setItem('zoomLevel', '' + zoomLevel);
 	resize_canvas(Module.canvas);
 	update_zoom_buttons();
 }
@@ -1363,7 +1363,7 @@ function update_observer_button() {
 }
 
 function persist_viewer_toggle_settings() {
-	localStorage.viewerToggleSettings = JSON.stringify(viewerToggleSettings);
+	localStorage.setItem('viewerToggleSettings', JSON.stringify(viewerToggleSettings));
 }
 
 function apply_persisted_viewer_toggle_settings() {

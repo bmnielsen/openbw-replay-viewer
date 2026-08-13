@@ -599,9 +599,23 @@
     <script type="text/javascript" src="v1.4/mpq-host-config.js?ver=1.4.0"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
-    var ajax_object = {"replay_file":new URLSearchParams(window.location.search).get('rep')};
+    var replay_query_params = new URLSearchParams(window.location.search);
+    var is_desktop_viewer = replay_query_params.get('desktop') === '1';
+    var ajax_object = {
+        "replay_file": replay_query_params.get('rep'),
+        "desktop_replay_path": replay_query_params.get('desktopReplayPath')
+    };
+    if (is_desktop_viewer) {
+        document.write('<script src="/neutralino.js"><\/script>');
+        document.write('<script src="/desktop-settings.js"><\/script>');
+    }
     window.OPENBW_WINDOW_TITLE = "StarCraft Replay Viewer";
     /* ]]> */
+    </script>
+    <script type="text/javascript">
+    if (window.DesktopSettingsPersistence) {
+        window.DesktopSettingsPersistence.start();
+    }
     </script>
     <script type="text/javascript" src="v1.4/start.js?ver=1.4.0"></script>
     <script type="text/javascript" src="v1.4/openbw.js"></script>

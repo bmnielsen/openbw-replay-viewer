@@ -1,0 +1,16 @@
+{
+  "name": "replay-viewer-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Lightweight desktop webview wrapper for the StarCraft replay viewer",
+  "scripts": {
+    "setup": "node ./node_modules/@neutralinojs/neu/bin/neu.js update",
+    "sync-viewer": "bash ./scripts/sync_viewer.sh",
+    "test": "node --test tests/*.test.js",
+    "dev": "npm run sync-viewer && node ./node_modules/@neutralinojs/neu/bin/neu.js run",
+    "build": "npm run sync-viewer && node ./node_modules/@neutralinojs/neu/bin/neu.js build --release"
+  },
+  "devDependencies": {
+    "@neutralinojs/neu": "11.7.2"
+  }
+}

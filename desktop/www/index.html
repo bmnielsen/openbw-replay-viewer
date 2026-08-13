@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="icon" href="/icon.png" />
+    <title>StarCraft Replay Viewer</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #101418;
+        color: #d9e3ec;
+        font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .launcher {
+        width: min(32rem, calc(100vw - 3rem));
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: #9fb0c0;
+        word-break: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="launcher">
+      <h1>Launching StarCraft Replay Viewer</h1>
+      <p id="status">Preparing bundled viewer…</p>
+    </div>
+
+    <script src="/neutralino.js"></script>
+    <script src="/desktop-settings.js"></script>
+    <script src="/launcher.js"></script>
+  </body>
+</html>

@@ -183,7 +183,7 @@ function initialize_canvas(canvas) {
 	canvas.style.position = 'relative';
 	canvas.style.top = 'calc(40% - 120px)';
 	
-	if (ajax_object.replay_file == null) {
+	if (ajax_object.replay_file == null && ajax_object.desktop_replay_path == null) {
 		return;
 	// } else {
 		
@@ -1247,7 +1247,7 @@ function resize_canvas(canvas) {
 	let effectiveZoomLevel = exportRenderSize ? zoomLevel : find_safe_zoom_level(renderWidth, renderHeight, zoomLevel);
 	if (effectiveZoomLevel !== zoomLevel && !exportRenderSize) {
 		zoomLevel = effectiveZoomLevel;
-		localStorage.zoomLevel = '' + zoomLevel;
+		localStorage.setItem('zoomLevel', '' + zoomLevel);
 		if (typeof update_zoom_buttons === "function") update_zoom_buttons();
 	}
 	if (currentSize.width === liveSize.width && currentSize.height === liveSize.height && currentSize.zoomLevel === effectiveZoomLevel && currentSize.renderWidth === renderWidth && currentSize.renderHeight === renderHeight) {
@@ -1726,6 +1726,30 @@ function load_replay_url(url) {
     req.send();
 }
 
+function load_desktop_replay_path(path) {
+	resume_viewer_main_loop();
+	currentReplaySourceUrl = null;
+	show_loading_replay_screen(path);
+
+	if (typeof Neutralino === "undefined" || !Neutralino.filesystem) {
+		set_pregame_dropzone_status("Loading replay", "Desktop filesystem access is unavailable.");
+		return;
+	}
+
+	Neutralino.init();
+	Neutralino.filesystem.readBinaryFile(path)
+		.then(function(buffer) {
+			var arr = new Int8Array(buffer);
+			var buf = allocate_replay_buffer(arr);
+			start_replay(buf, arr.length);
+			_free(buf);
+		})
+		.catch(function(error) {
+			var message = error && error.message ? error.message : String(error);
+			set_pregame_dropzone_status("Loading replay", "reading " + path + ": " + message);
+		});
+}
+
 var first_frame_played = false;
 
 function start_replay(buffer, length) {
@@ -1852,7 +1876,9 @@ function on_read_all_done() {
                         }
                 }
         }
-        if (inputs.url) {
+        if (ajax_object.desktop_replay_path != null) {
+                load_desktop_replay_path(ajax_object.desktop_replay_path);
+        } else if (inputs.url) {
         	load_replay_url(inputs.url);
         } else if (ajax_object.replay_file != null) {
         	load_replay_url(ajax_object.replay_file);

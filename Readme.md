@@ -55,6 +55,24 @@ For a full publish from the `openbw/` development repo into this Pages repo, run
 
 On GitHub Pages, the viewer is configured to fetch MPQs from `/mpqs/<file>` on the same `github.io` host. Localhost development still uses `/bw/<file>`.
 
+## Desktop application
+
+The Neutralino-based standalone application lives in `desktop/`. It bundles
+this repository's `docs/` viewer, accepts a `.rep` path as a command-line
+argument, reads associated replay files through Neutralino's filesystem API,
+and persists viewer settings in the operating system's application-data
+directory.
+
+To test and build it:
+
+```bash
+cd desktop
+npm install
+npm run setup
+npm test
+npm run build
+```
+
 We are using an old version of emscripten (via its Docker image). tscmoo made an attempt to get it working on a new version of emscripten, but ran into some difficulties:
 
 > i think i figured out that the choppy audio i was having is due to it using an emscripten-built native version of sdl mixer, whereas the one you built uses SDL1 mixer (even though we ask for sdl 2), which emscripten has an implementation of built in javascript (so it uses the browser api to play audio, and doesn't need to feed the chunks with specific timing since the browser takes care of it)
