@@ -12,6 +12,10 @@ StarCraft: Brood War 1.16.1 and experimental Remastered replay files.
 - Detect replay formats automatically through all loading paths, including
   URLs, playlists and desktop launches. Alternating formats must preserve
   correct per-replay simulation settings and support rewind without a reload.
+- Select independently compiled classic and Remastered engines before loading
+  replay bytes. Retire the previous engine's loop and event handlers when
+  switching. Only the Remastered engine loads the extended terrain archive and
+  32-bit VX4EX graphics; downloads still preserve the original replay bytes.
 - While a replay is loaded, users can download its original `.rep` bytes and
   filename from the top-right Download button.
 - A `rep` URL parameter loads a remotely fetchable replay.

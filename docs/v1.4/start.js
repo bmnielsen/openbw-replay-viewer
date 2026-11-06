@@ -1025,9 +1025,7 @@ function read_replay_entry(entry, canvas) {
 			ReplayDownload.setSource(e.target.result, entry.displayName || entry.label || entry.file.name);
 			var arr = new Int8Array(e.target.result);
 			if (main_has_been_called) {
-				var buf = allocate_replay_buffer(arr);
-				start_replay(buf, arr.length);
-				_free(buf);
+				load_replay_bytes(arr);
 			} else {
 				load_replay_data_arr = arr;
 				print_to_canvas(entry.label, 15, 80, canvas);
@@ -1714,9 +1712,7 @@ function load_replay_url(url) {
 	        if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
 		        ReplayDownload.setSource(req.response, ReplayDownload.filenameFromUrl(url));
 		        var arr = new Int8Array(req.response);
-		        var buf = allocate_replay_buffer(arr);
-		        start_replay(buf, arr.length);
-		        _free(buf);
+		        load_replay_bytes(arr);
 	        } else if (req.readyState == XMLHttpRequest.DONE) {
 	        	if (embeddedReplayConfig.enabled) {
 	        		abort_embedded_replay_load();
@@ -1744,9 +1740,7 @@ function load_desktop_replay_path(path) {
 		.then(function(buffer) {
 			ReplayDownload.setSource(buffer, ReplayDownload.filenameFromPath(path));
 			var arr = new Int8Array(buffer);
-			var buf = allocate_replay_buffer(arr);
-			start_replay(buf, arr.length);
-			_free(buf);
+			return load_replay_bytes(arr);
 		})
 		.catch(function(error) {
 			var message = error && error.message ? error.message : String(error);
@@ -1882,9 +1876,7 @@ function on_read_all_done() {
     if (load_replay_data_arr) {
         var arr = load_replay_data_arr;
         load_replay_data_arr = null;
-        var buf = allocate_replay_buffer(arr);
-        start_replay(buf, arr.length);
-        _free(buf);
+        load_replay_bytes(arr);
     } else {
         replayPlaylist = [];
         replayPlaylistIndex = -1;
