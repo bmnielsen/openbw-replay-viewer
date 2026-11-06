@@ -28,6 +28,8 @@ var C_CURRENT_WORKERS = 11;
 var C_CURRENT_ARMY_SIZE = 12;
 var C_RACE = 13;
 var C_APM = 14;
+var C_START_LOCATION_X = 15;
+var C_START_LOCATION_Y = 16;
 
 var C_MPQ_FILENAMES = ["StarDat.mpq", "BrooDat.mpq", "Patch_rt.mpq"];
 var C_MPQ_BASE_URL = (window.OPENBW_MPQ_BASE_URL || "https://dgant.github.io/mpqs").replace(/\/$/, "");
@@ -1020,6 +1022,7 @@ function read_replay_entry(entry, canvas) {
 		reader.onloadend = function(e) {
 			if (!e.target.error && e.target.readyState != FileReader.DONE) throw "read failed with no error!?";
 			if (e.target.error) throw "read failed: " + e.target.error;
+			ReplayDownload.setSource(e.target.result, entry.displayName || entry.label || entry.file.name);
 			var arr = new Int8Array(e.target.result);
 			if (main_has_been_called) {
 				var buf = allocate_replay_buffer(arr);
@@ -1709,7 +1712,7 @@ function load_replay_url(url) {
 	    req.onreadystatechange = function() {
 	    	
 	        if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
-	        	
+		        ReplayDownload.setSource(req.response, ReplayDownload.filenameFromUrl(url));
 		        var arr = new Int8Array(req.response);
 		        var buf = allocate_replay_buffer(arr);
 		        start_replay(buf, arr.length);
@@ -1739,6 +1742,7 @@ function load_desktop_replay_path(path) {
 	Neutralino.init();
 	Neutralino.filesystem.readBinaryFile(path)
 		.then(function(buffer) {
+			ReplayDownload.setSource(buffer, ReplayDownload.filenameFromPath(path));
 			var arr = new Int8Array(buffer);
 			var buf = allocate_replay_buffer(arr);
 			start_replay(buf, arr.length);
@@ -1751,6 +1755,14 @@ function load_desktop_replay_path(path) {
 }
 
 var first_frame_played = false;
+
+function center_camera_on_first_player_start() {
+	if (!players.length) return;
+	_ui_set_screen_center(
+		_player_get_value(players[0], C_START_LOCATION_X),
+		_player_get_value(players[0], C_START_LOCATION_Y)
+	);
+}
 
 function start_replay(buffer, length) {
 	resume_viewer_main_loop();
@@ -1788,6 +1800,12 @@ function start_replay(buffer, length) {
 		setTimeout(function() {
 			zoomLevel = zoom;
 			resize_canvas(Module.canvas);
+			// Recenter after zoom: the initial view may have been clamped at a map edge.
+			center_camera_on_first_player_start();
+			// Resizing clears the canvas even if a paused replay has stopped its loop.
+			if (typeof Module._ui_force_static_redraw === "function") {
+				_ui_force_static_redraw();
+			}
 		}, 0);
 	}
 
@@ -1846,6 +1864,13 @@ function start_replay(buffer, length) {
 	}
 	if (typeof Module !== "undefined" && typeof Module.set_primary_perspective_player === "function") {
 		Module.set_primary_perspective_player(players.length ? players[0] : -1);
+	}
+	update_info_bar(_replay_get_value(2));
+	update_info_tab();
+	last_update_frame = _replay_get_value(2);
+	center_camera_on_first_player_start();
+	if (typeof Module._ui_force_static_redraw === "function") {
+		_ui_force_static_redraw();
 	}
 	initialize_music_for_current_replay();
 }

@@ -512,7 +512,7 @@ function updateGlobalBufferAndViews(buf) {
  Module["HEAPF64"] = HEAPF64 = new Float64Array(buf);
 }
 
-var DYNAMIC_BASE = 5419904, DYNAMICTOP_PTR = 176832;
+var DYNAMIC_BASE = 5419920, DYNAMICTOP_PTR = 176848;
 
 var INITIAL_TOTAL_MEMORY = Module["TOTAL_MEMORY"] || 201326592;
 
@@ -10609,16 +10609,16 @@ var asmLibraryArg = {
  "e": ___cxa_throw,
  "N": ___lock,
  "ke": ___map_file,
- "D": ___syscall221,
+ "C": ___syscall221,
  "pe": ___syscall5,
  "oe": ___syscall54,
  "je": ___syscall91,
  "v": ___unlock,
  "ge": __embind_register_bool,
- "x": __embind_register_class,
- "Wd": __embind_register_class_constructor,
+ "D": __embind_register_class,
+ "Md": __embind_register_class_constructor,
  "k": __embind_register_class_function,
- "C": __embind_register_class_property,
+ "B": __embind_register_class_property,
  "ee": __embind_register_emval,
  "qa": __embind_register_float,
  "l": __embind_register_function,
@@ -10631,40 +10631,40 @@ var asmLibraryArg = {
  "K": __emval_incref,
  "s": __emval_new_array,
  "j": __emval_new_cstring,
- "B": __emval_new_object,
+ "A": __emval_new_object,
  "i": __emval_set_property,
  "h": __emval_take_value,
  "u": _abort,
  "w": _clock_gettime,
- "wa": _dlclose,
- "xa": _dlerror,
+ "xa": _dlclose,
+ "ya": _dlerror,
  "T": _dlsym,
- "Na": _eglBindAPI,
- "Ra": _eglChooseConfig,
- "Da": _eglCreateContext,
- "Fa": _eglCreateWindowSurface,
- "Ea": _eglDestroyContext,
- "Ga": _eglDestroySurface,
- "Sa": _eglGetConfigAttrib,
+ "Oa": _eglBindAPI,
+ "Sa": _eglChooseConfig,
+ "Ea": _eglCreateContext,
+ "Ga": _eglCreateWindowSurface,
+ "Fa": _eglDestroyContext,
+ "Ha": _eglDestroySurface,
+ "Ta": _eglGetConfigAttrib,
  "na": _eglGetDisplay,
- "Ca": _eglGetError,
- "Oa": _eglGetProcAddress,
- "Pa": _eglInitialize,
- "Ha": _eglMakeCurrent,
- "Ba": _eglQueryString,
- "Ia": _eglSwapBuffers,
- "Ja": _eglSwapInterval,
- "Qa": _eglTerminate,
- "Ma": _eglWaitGL,
- "Ka": _eglWaitNative,
+ "Da": _eglGetError,
+ "Pa": _eglGetProcAddress,
+ "Qa": _eglInitialize,
+ "Ia": _eglMakeCurrent,
+ "Ca": _eglQueryString,
+ "Ja": _eglSwapBuffers,
+ "Ka": _eglSwapInterval,
+ "Ra": _eglTerminate,
+ "Na": _eglWaitGL,
+ "La": _eglWaitNative,
  "g": _emscripten_asm_const_iii,
- "ya": _emscripten_exit_fullscreen,
- "Aa": _emscripten_exit_pointerlock,
- "y": _emscripten_get_device_pixel_ratio,
+ "za": _emscripten_exit_fullscreen,
+ "Ba": _emscripten_exit_pointerlock,
+ "x": _emscripten_get_device_pixel_ratio,
  "q": _emscripten_get_element_css_size,
  "R": _emscripten_get_gamepad_status,
  "va": _emscripten_get_num_gamepads,
- "Qb": _emscripten_get_preloaded_image_data_from_FILE,
+ "Rb": _emscripten_get_preloaded_image_data_from_FILE,
  "Jd": _emscripten_glActiveTexture,
  "Id": _emscripten_glAttachShader,
  "_d": _emscripten_glBeginQueryEXT,
@@ -10673,7 +10673,7 @@ var asmLibraryArg = {
  "Fd": _emscripten_glBindFramebuffer,
  "Ed": _emscripten_glBindRenderbuffer,
  "Dd": _emscripten_glBindTexture,
- "Rd": _emscripten_glBindVertexArrayOES,
+ "Sd": _emscripten_glBindVertexArrayOES,
  "Cd": _emscripten_glBlendColor,
  "Bd": _emscripten_glBlendEquation,
  "Ad": _emscripten_glBlendEquationSeparate,
@@ -10702,7 +10702,7 @@ var asmLibraryArg = {
  "ed": _emscripten_glDeleteRenderbuffers,
  "dd": _emscripten_glDeleteShader,
  "cd": _emscripten_glDeleteTextures,
- "Qd": _emscripten_glDeleteVertexArraysOES,
+ "Rd": _emscripten_glDeleteVertexArraysOES,
  "bd": _emscripten_glDepthFunc,
  "ad": _emscripten_glDepthMask,
  "$c": _emscripten_glDepthRangef,
@@ -10710,8 +10710,8 @@ var asmLibraryArg = {
  "Zc": _emscripten_glDisable,
  "Yc": _emscripten_glDisableVertexAttribArray,
  "Xc": _emscripten_glDrawArrays,
- "Md": _emscripten_glDrawArraysInstancedANGLE,
- "Nd": _emscripten_glDrawBuffersWEBGL,
+ "Nd": _emscripten_glDrawArraysInstancedANGLE,
+ "Od": _emscripten_glDrawBuffersWEBGL,
  "Wc": _emscripten_glDrawElements,
  "Ld": _emscripten_glDrawElementsInstancedANGLE,
  "Vc": _emscripten_glEnable,
@@ -10727,108 +10727,108 @@ var asmLibraryArg = {
  "be": _emscripten_glGenQueriesEXT,
  "Lc": _emscripten_glGenRenderbuffers,
  "Kc": _emscripten_glGenTextures,
- "Pd": _emscripten_glGenVertexArraysOES,
+ "Qd": _emscripten_glGenVertexArraysOES,
  "Nc": _emscripten_glGenerateMipmap,
  "Jc": _emscripten_glGetActiveAttrib,
  "Ic": _emscripten_glGetActiveUniform,
  "Hc": _emscripten_glGetAttachedShaders,
  "Gc": _emscripten_glGetAttribLocation,
- "Dc": _emscripten_glGetBooleanv,
- "Cc": _emscripten_glGetBufferParameteriv,
- "Bc": _emscripten_glGetError,
- "Ac": _emscripten_glGetFloatv,
- "zc": _emscripten_glGetFramebufferAttachmentParameteriv,
- "yc": _emscripten_glGetIntegerv,
- "wc": _emscripten_glGetProgramInfoLog,
- "xc": _emscripten_glGetProgramiv,
- "Td": _emscripten_glGetQueryObjecti64vEXT,
- "Vd": _emscripten_glGetQueryObjectivEXT,
- "Sd": _emscripten_glGetQueryObjectui64vEXT,
- "Ud": _emscripten_glGetQueryObjectuivEXT,
+ "Ec": _emscripten_glGetBooleanv,
+ "Dc": _emscripten_glGetBufferParameteriv,
+ "Cc": _emscripten_glGetError,
+ "Bc": _emscripten_glGetFloatv,
+ "Ac": _emscripten_glGetFramebufferAttachmentParameteriv,
+ "zc": _emscripten_glGetIntegerv,
+ "xc": _emscripten_glGetProgramInfoLog,
+ "yc": _emscripten_glGetProgramiv,
+ "Ud": _emscripten_glGetQueryObjecti64vEXT,
+ "Wd": _emscripten_glGetQueryObjectivEXT,
+ "Td": _emscripten_glGetQueryObjectui64vEXT,
+ "Vd": _emscripten_glGetQueryObjectuivEXT,
  "Xd": _emscripten_glGetQueryivEXT,
- "vc": _emscripten_glGetRenderbufferParameteriv,
- "sc": _emscripten_glGetShaderInfoLog,
- "rc": _emscripten_glGetShaderPrecisionFormat,
- "qc": _emscripten_glGetShaderSource,
- "uc": _emscripten_glGetShaderiv,
- "pc": _emscripten_glGetString,
- "oc": _emscripten_glGetTexParameterfv,
- "nc": _emscripten_glGetTexParameteriv,
- "kc": _emscripten_glGetUniformLocation,
- "mc": _emscripten_glGetUniformfv,
- "lc": _emscripten_glGetUniformiv,
- "hc": _emscripten_glGetVertexAttribPointerv,
- "jc": _emscripten_glGetVertexAttribfv,
- "ic": _emscripten_glGetVertexAttribiv,
- "gc": _emscripten_glHint,
- "fc": _emscripten_glIsBuffer,
- "ec": _emscripten_glIsEnabled,
- "dc": _emscripten_glIsFramebuffer,
- "cc": _emscripten_glIsProgram,
+ "wc": _emscripten_glGetRenderbufferParameteriv,
+ "tc": _emscripten_glGetShaderInfoLog,
+ "sc": _emscripten_glGetShaderPrecisionFormat,
+ "rc": _emscripten_glGetShaderSource,
+ "vc": _emscripten_glGetShaderiv,
+ "qc": _emscripten_glGetString,
+ "pc": _emscripten_glGetTexParameterfv,
+ "oc": _emscripten_glGetTexParameteriv,
+ "lc": _emscripten_glGetUniformLocation,
+ "nc": _emscripten_glGetUniformfv,
+ "mc": _emscripten_glGetUniformiv,
+ "ic": _emscripten_glGetVertexAttribPointerv,
+ "kc": _emscripten_glGetVertexAttribfv,
+ "jc": _emscripten_glGetVertexAttribiv,
+ "hc": _emscripten_glHint,
+ "gc": _emscripten_glIsBuffer,
+ "fc": _emscripten_glIsEnabled,
+ "ec": _emscripten_glIsFramebuffer,
+ "dc": _emscripten_glIsProgram,
  "$d": _emscripten_glIsQueryEXT,
- "bc": _emscripten_glIsRenderbuffer,
- "ac": _emscripten_glIsShader,
- "$b": _emscripten_glIsTexture,
- "Od": _emscripten_glIsVertexArrayOES,
- "_b": _emscripten_glLineWidth,
- "Zb": _emscripten_glLinkProgram,
- "Yb": _emscripten_glPixelStorei,
- "Xb": _emscripten_glPolygonOffset,
+ "cc": _emscripten_glIsRenderbuffer,
+ "bc": _emscripten_glIsShader,
+ "ac": _emscripten_glIsTexture,
+ "Pd": _emscripten_glIsVertexArrayOES,
+ "$b": _emscripten_glLineWidth,
+ "_b": _emscripten_glLinkProgram,
+ "Zb": _emscripten_glPixelStorei,
+ "Yb": _emscripten_glPolygonOffset,
  "Yd": _emscripten_glQueryCounterEXT,
- "Wb": _emscripten_glReadPixels,
- "Vb": _emscripten_glReleaseShaderCompiler,
- "Ub": _emscripten_glRenderbufferStorage,
- "Tb": _emscripten_glSampleCoverage,
- "Sb": _emscripten_glScissor,
- "Rb": _emscripten_glShaderBinary,
- "Pb": _emscripten_glShaderSource,
- "Ob": _emscripten_glStencilFunc,
- "Nb": _emscripten_glStencilFuncSeparate,
- "Mb": _emscripten_glStencilMask,
- "Lb": _emscripten_glStencilMaskSeparate,
- "Kb": _emscripten_glStencilOp,
- "Jb": _emscripten_glStencilOpSeparate,
- "Ib": _emscripten_glTexImage2D,
- "Hb": _emscripten_glTexParameterf,
- "Gb": _emscripten_glTexParameterfv,
- "Fb": _emscripten_glTexParameteri,
- "Eb": _emscripten_glTexParameteriv,
- "Db": _emscripten_glTexSubImage2D,
- "Cb": _emscripten_glUniform1f,
- "Bb": _emscripten_glUniform1fv,
- "Ab": _emscripten_glUniform1i,
- "zb": _emscripten_glUniform1iv,
- "yb": _emscripten_glUniform2f,
- "xb": _emscripten_glUniform2fv,
- "wb": _emscripten_glUniform2i,
- "vb": _emscripten_glUniform2iv,
- "ub": _emscripten_glUniform3f,
- "tb": _emscripten_glUniform3fv,
- "sb": _emscripten_glUniform3i,
- "rb": _emscripten_glUniform3iv,
- "qb": _emscripten_glUniform4f,
- "pb": _emscripten_glUniform4fv,
- "ob": _emscripten_glUniform4i,
- "nb": _emscripten_glUniform4iv,
- "mb": _emscripten_glUniformMatrix2fv,
- "lb": _emscripten_glUniformMatrix3fv,
- "kb": _emscripten_glUniformMatrix4fv,
- "jb": _emscripten_glUseProgram,
- "ib": _emscripten_glValidateProgram,
- "hb": _emscripten_glVertexAttrib1f,
- "gb": _emscripten_glVertexAttrib1fv,
- "fb": _emscripten_glVertexAttrib2f,
- "eb": _emscripten_glVertexAttrib2fv,
- "db": _emscripten_glVertexAttrib3f,
- "cb": _emscripten_glVertexAttrib3fv,
- "bb": _emscripten_glVertexAttrib4f,
- "ab": _emscripten_glVertexAttrib4fv,
+ "Xb": _emscripten_glReadPixels,
+ "Wb": _emscripten_glReleaseShaderCompiler,
+ "Vb": _emscripten_glRenderbufferStorage,
+ "Ub": _emscripten_glSampleCoverage,
+ "Tb": _emscripten_glScissor,
+ "Sb": _emscripten_glShaderBinary,
+ "Qb": _emscripten_glShaderSource,
+ "Pb": _emscripten_glStencilFunc,
+ "Ob": _emscripten_glStencilFuncSeparate,
+ "Nb": _emscripten_glStencilMask,
+ "Mb": _emscripten_glStencilMaskSeparate,
+ "Lb": _emscripten_glStencilOp,
+ "Kb": _emscripten_glStencilOpSeparate,
+ "Jb": _emscripten_glTexImage2D,
+ "Ib": _emscripten_glTexParameterf,
+ "Hb": _emscripten_glTexParameterfv,
+ "Gb": _emscripten_glTexParameteri,
+ "Fb": _emscripten_glTexParameteriv,
+ "Eb": _emscripten_glTexSubImage2D,
+ "Db": _emscripten_glUniform1f,
+ "Cb": _emscripten_glUniform1fv,
+ "Bb": _emscripten_glUniform1i,
+ "Ab": _emscripten_glUniform1iv,
+ "zb": _emscripten_glUniform2f,
+ "yb": _emscripten_glUniform2fv,
+ "xb": _emscripten_glUniform2i,
+ "wb": _emscripten_glUniform2iv,
+ "vb": _emscripten_glUniform3f,
+ "ub": _emscripten_glUniform3fv,
+ "tb": _emscripten_glUniform3i,
+ "sb": _emscripten_glUniform3iv,
+ "rb": _emscripten_glUniform4f,
+ "qb": _emscripten_glUniform4fv,
+ "pb": _emscripten_glUniform4i,
+ "ob": _emscripten_glUniform4iv,
+ "nb": _emscripten_glUniformMatrix2fv,
+ "mb": _emscripten_glUniformMatrix3fv,
+ "lb": _emscripten_glUniformMatrix4fv,
+ "kb": _emscripten_glUseProgram,
+ "jb": _emscripten_glValidateProgram,
+ "ib": _emscripten_glVertexAttrib1f,
+ "hb": _emscripten_glVertexAttrib1fv,
+ "gb": _emscripten_glVertexAttrib2f,
+ "fb": _emscripten_glVertexAttrib2fv,
+ "eb": _emscripten_glVertexAttrib3f,
+ "db": _emscripten_glVertexAttrib3fv,
+ "cb": _emscripten_glVertexAttrib4f,
+ "bb": _emscripten_glVertexAttrib4fv,
  "Kd": _emscripten_glVertexAttribDivisorANGLE,
- "$a": _emscripten_glVertexAttribPointer,
- "_a": _emscripten_glViewport,
+ "ab": _emscripten_glVertexAttribPointer,
+ "$a": _emscripten_glViewport,
  "p": _emscripten_longjmp,
  "ce": _emscripten_memcpy_big,
- "za": _emscripten_request_fullscreen_strategy,
+ "Aa": _emscripten_request_fullscreen_strategy,
  "ma": _emscripten_request_pointerlock,
  "de": _emscripten_resize_heap,
  "S": _emscripten_sample_gamepad_data,
@@ -10842,7 +10842,7 @@ var asmLibraryArg = {
  "_": _emscripten_set_keydown_callback_on_thread,
  "X": _emscripten_set_keypress_callback_on_thread,
  "Y": _emscripten_set_keyup_callback_on_thread,
- "Ec": _emscripten_set_main_loop_arg,
+ "uc": _emscripten_set_main_loop_arg,
  "ka": _emscripten_set_mousedown_callback_on_thread,
  "ia": _emscripten_set_mouseenter_callback_on_thread,
  "ha": _emscripten_set_mouseleave_callback_on_thread,
@@ -10858,34 +10858,34 @@ var asmLibraryArg = {
  "ga": _emscripten_set_wheel_callback_on_thread,
  "le": _environ_get,
  "me": _environ_sizes_get,
- "tc": _exit,
+ "wa": _exit,
  "ta": _fd_close,
  "ne": _fd_read,
- "Ya": _fd_seek,
+ "Za": _fd_seek,
  "qe": _fd_write,
  "b": _getTempRet0,
  "E": _gettimeofday,
- "Ta": invoke_i,
+ "Ua": invoke_i,
  "J": invoke_ii,
- "z": invoke_iii,
+ "y": invoke_iii,
  "H": invoke_iiii,
  "I": invoke_iiiii,
- "Wa": invoke_iiiiii,
- "Va": invoke_iiiiiiiii,
+ "Xa": invoke_iiiiii,
+ "Wa": invoke_iiiiiiiii,
  "oa": invoke_iiiiiiiiii,
- "Za": invoke_jiji,
+ "_a": invoke_jiji,
  "r": invoke_vi,
- "A": invoke_vii,
+ "z": invoke_vii,
  "pa": invoke_viii,
  "O": invoke_viiii,
  "memory": wasmMemory,
  "ua": _nanosleep,
  "Z": openbw_audio_free_wav_js,
  "L": openbw_audio_init_js,
- "Xa": openbw_audio_is_playing_js,
- "La": openbw_audio_load_wav_js,
+ "Ya": openbw_audio_is_playing_js,
+ "Ma": openbw_audio_load_wav_js,
  "Fc": openbw_audio_play_js,
- "Ua": openbw_audio_set_volume_js,
+ "Va": openbw_audio_set_volume_js,
  "sa": _round,
  "G": _saveSetjmp,
  "c": _setTempRet0,
@@ -10964,268 +10964,272 @@ var _fog_of_war_get_value = Module["_fog_of_war_get_value"] = function() {
  return Module["asm"]["Ge"].apply(null, arguments);
 };
 
-var _fog_of_war_set_value = Module["_fog_of_war_set_value"] = function() {
+var _fog_of_war_vision_get_value = Module["_fog_of_war_vision_get_value"] = function() {
  return Module["asm"]["He"].apply(null, arguments);
 };
 
-var _fog_of_war_player_get_value = Module["_fog_of_war_player_get_value"] = function() {
+var _fog_of_war_set_value = Module["_fog_of_war_set_value"] = function() {
  return Module["asm"]["Ie"].apply(null, arguments);
 };
 
-var _fog_of_war_player_set_value = Module["_fog_of_war_player_set_value"] = function() {
+var _fog_of_war_player_get_value = Module["_fog_of_war_player_get_value"] = function() {
  return Module["asm"]["Je"].apply(null, arguments);
 };
 
-var _force_red_blue_colors_get_value = Module["_force_red_blue_colors_get_value"] = function() {
+var _fog_of_war_player_set_value = Module["_fog_of_war_player_set_value"] = function() {
  return Module["asm"]["Ke"].apply(null, arguments);
 };
 
-var _force_red_blue_colors_set_value = Module["_force_red_blue_colors_set_value"] = function() {
+var _force_red_blue_colors_get_value = Module["_force_red_blue_colors_get_value"] = function() {
  return Module["asm"]["Le"].apply(null, arguments);
 };
 
-var _player_get_value = Module["_player_get_value"] = function() {
+var _force_red_blue_colors_set_value = Module["_force_red_blue_colors_set_value"] = function() {
  return Module["asm"]["Me"].apply(null, arguments);
 };
 
-var _load_replay = Module["_load_replay"] = function() {
+var _player_get_value = Module["_player_get_value"] = function() {
  return Module["asm"]["Ne"].apply(null, arguments);
 };
 
-var _malloc = Module["_malloc"] = function() {
+var _load_replay = Module["_load_replay"] = function() {
  return Module["asm"]["Oe"].apply(null, arguments);
 };
 
-var _main = Module["_main"] = function() {
+var _malloc = Module["_malloc"] = function() {
  return Module["asm"]["Pe"].apply(null, arguments);
 };
 
-var ___errno_location = Module["___errno_location"] = function() {
+var _main = Module["_main"] = function() {
  return Module["asm"]["Qe"].apply(null, arguments);
 };
 
-var _free = Module["_free"] = function() {
+var ___errno_location = Module["___errno_location"] = function() {
  return Module["asm"]["Re"].apply(null, arguments);
 };
 
-var _realloc = Module["_realloc"] = function() {
+var _free = Module["_free"] = function() {
  return Module["asm"]["Se"].apply(null, arguments);
 };
 
-var _fileno = Module["_fileno"] = function() {
+var _realloc = Module["_realloc"] = function() {
  return Module["asm"]["Te"].apply(null, arguments);
 };
 
-var _setThrew = Module["_setThrew"] = function() {
+var _fileno = Module["_fileno"] = function() {
  return Module["asm"]["Ue"].apply(null, arguments);
 };
 
-var __ZSt18uncaught_exceptionv = Module["__ZSt18uncaught_exceptionv"] = function() {
+var _setThrew = Module["_setThrew"] = function() {
  return Module["asm"]["Ve"].apply(null, arguments);
 };
 
-var ___getTypeName = Module["___getTypeName"] = function() {
+var __ZSt18uncaught_exceptionv = Module["__ZSt18uncaught_exceptionv"] = function() {
  return Module["asm"]["We"].apply(null, arguments);
 };
 
-var ___embind_register_native_and_builtin_types = Module["___embind_register_native_and_builtin_types"] = function() {
+var ___getTypeName = Module["___getTypeName"] = function() {
  return Module["asm"]["Xe"].apply(null, arguments);
 };
 
-var _emscripten_GetProcAddress = Module["_emscripten_GetProcAddress"] = function() {
+var ___embind_register_native_and_builtin_types = Module["___embind_register_native_and_builtin_types"] = function() {
  return Module["asm"]["Ye"].apply(null, arguments);
 };
 
-var dynCall_i = Module["dynCall_i"] = function() {
+var _emscripten_GetProcAddress = Module["_emscripten_GetProcAddress"] = function() {
  return Module["asm"]["Ze"].apply(null, arguments);
 };
 
-var dynCall_ii = Module["dynCall_ii"] = function() {
+var dynCall_i = Module["dynCall_i"] = function() {
  return Module["asm"]["_e"].apply(null, arguments);
 };
 
-var dynCall_iii = Module["dynCall_iii"] = function() {
+var dynCall_ii = Module["dynCall_ii"] = function() {
  return Module["asm"]["$e"].apply(null, arguments);
 };
 
-var dynCall_iiii = Module["dynCall_iiii"] = function() {
+var dynCall_iii = Module["dynCall_iii"] = function() {
  return Module["asm"]["af"].apply(null, arguments);
 };
 
-var dynCall_iiiii = Module["dynCall_iiiii"] = function() {
+var dynCall_iiii = Module["dynCall_iiii"] = function() {
  return Module["asm"]["bf"].apply(null, arguments);
 };
 
-var dynCall_iiiiii = Module["dynCall_iiiiii"] = function() {
+var dynCall_iiiii = Module["dynCall_iiiii"] = function() {
  return Module["asm"]["cf"].apply(null, arguments);
 };
 
-var dynCall_iiiiiiiii = Module["dynCall_iiiiiiiii"] = function() {
+var dynCall_iiiiii = Module["dynCall_iiiiii"] = function() {
  return Module["asm"]["df"].apply(null, arguments);
 };
 
-var dynCall_iiiiiiiiii = Module["dynCall_iiiiiiiiii"] = function() {
+var dynCall_iiiiiiiii = Module["dynCall_iiiiiiiii"] = function() {
  return Module["asm"]["ef"].apply(null, arguments);
 };
 
-var dynCall_jiji = Module["dynCall_jiji"] = function() {
+var dynCall_iiiiiiiiii = Module["dynCall_iiiiiiiiii"] = function() {
  return Module["asm"]["ff"].apply(null, arguments);
 };
 
-var dynCall_vi = Module["dynCall_vi"] = function() {
+var dynCall_jiji = Module["dynCall_jiji"] = function() {
  return Module["asm"]["gf"].apply(null, arguments);
 };
 
-var dynCall_vii = Module["dynCall_vii"] = function() {
+var dynCall_vi = Module["dynCall_vi"] = function() {
  return Module["asm"]["hf"].apply(null, arguments);
 };
 
-var dynCall_viii = Module["dynCall_viii"] = function() {
+var dynCall_vii = Module["dynCall_vii"] = function() {
  return Module["asm"]["jf"].apply(null, arguments);
 };
 
-var dynCall_viiii = Module["dynCall_viiii"] = function() {
+var dynCall_viii = Module["dynCall_viii"] = function() {
  return Module["asm"]["kf"].apply(null, arguments);
 };
 
-var stackSave = Module["stackSave"] = function() {
+var dynCall_viiii = Module["dynCall_viiii"] = function() {
  return Module["asm"]["lf"].apply(null, arguments);
 };
 
-var stackAlloc = Module["stackAlloc"] = function() {
+var stackSave = Module["stackSave"] = function() {
  return Module["asm"]["mf"].apply(null, arguments);
 };
 
-var stackRestore = Module["stackRestore"] = function() {
+var stackAlloc = Module["stackAlloc"] = function() {
  return Module["asm"]["nf"].apply(null, arguments);
 };
 
-var dynCall_viiiiii = Module["dynCall_viiiiii"] = function() {
+var stackRestore = Module["stackRestore"] = function() {
  return Module["asm"]["of"].apply(null, arguments);
 };
 
-var dynCall_viiiii = Module["dynCall_viiiii"] = function() {
+var dynCall_viiiiii = Module["dynCall_viiiiii"] = function() {
  return Module["asm"]["pf"].apply(null, arguments);
 };
 
-var dynCall_dii = Module["dynCall_dii"] = function() {
+var dynCall_viiiii = Module["dynCall_viiiii"] = function() {
  return Module["asm"]["qf"].apply(null, arguments);
 };
 
-var dynCall_diii = Module["dynCall_diii"] = function() {
+var dynCall_dii = Module["dynCall_dii"] = function() {
  return Module["asm"]["rf"].apply(null, arguments);
 };
 
-var dynCall_vid = Module["dynCall_vid"] = function() {
+var dynCall_diii = Module["dynCall_diii"] = function() {
  return Module["asm"]["sf"].apply(null, arguments);
 };
 
-var dynCall_vd = Module["dynCall_vd"] = function() {
+var dynCall_vid = Module["dynCall_vid"] = function() {
  return Module["asm"]["tf"].apply(null, arguments);
 };
 
-var dynCall_di = Module["dynCall_di"] = function() {
+var dynCall_vd = Module["dynCall_vd"] = function() {
  return Module["asm"]["uf"].apply(null, arguments);
 };
 
-var dynCall_d = Module["dynCall_d"] = function() {
+var dynCall_di = Module["dynCall_di"] = function() {
  return Module["asm"]["vf"].apply(null, arguments);
 };
 
-var dynCall_viijii = Module["dynCall_viijii"] = function() {
+var dynCall_d = Module["dynCall_d"] = function() {
  return Module["asm"]["wf"].apply(null, arguments);
 };
 
-var dynCall_v = Module["dynCall_v"] = function() {
+var dynCall_viijii = Module["dynCall_viijii"] = function() {
  return Module["asm"]["xf"].apply(null, arguments);
 };
 
-var dynCall_ji = Module["dynCall_ji"] = function() {
+var dynCall_v = Module["dynCall_v"] = function() {
  return Module["asm"]["yf"].apply(null, arguments);
 };
 
-var dynCall_iiiiidii = Module["dynCall_iiiiidii"] = function() {
+var dynCall_ji = Module["dynCall_ji"] = function() {
  return Module["asm"]["zf"].apply(null, arguments);
 };
 
-var dynCall_viiiiiii = Module["dynCall_viiiiiii"] = function() {
+var dynCall_iiiiidii = Module["dynCall_iiiiidii"] = function() {
  return Module["asm"]["Af"].apply(null, arguments);
 };
 
-var dynCall_viiiiiiiiiii = Module["dynCall_viiiiiiiiiii"] = function() {
+var dynCall_viiiiiii = Module["dynCall_viiiiiii"] = function() {
  return Module["asm"]["Bf"].apply(null, arguments);
 };
 
-var dynCall_iiiiiiii = Module["dynCall_iiiiiiii"] = function() {
+var dynCall_viiiiiiiiiii = Module["dynCall_viiiiiiiiiii"] = function() {
  return Module["asm"]["Cf"].apply(null, arguments);
 };
 
-var dynCall_iidiiii = Module["dynCall_iidiiii"] = function() {
+var dynCall_iiiiiiii = Module["dynCall_iiiiiiii"] = function() {
  return Module["asm"]["Df"].apply(null, arguments);
 };
 
-var dynCall_iiiiiii = Module["dynCall_iiiiiii"] = function() {
+var dynCall_iidiiii = Module["dynCall_iidiiii"] = function() {
  return Module["asm"]["Ef"].apply(null, arguments);
 };
 
-var dynCall_iiiiij = Module["dynCall_iiiiij"] = function() {
+var dynCall_iiiiiii = Module["dynCall_iiiiiii"] = function() {
  return Module["asm"]["Ff"].apply(null, arguments);
 };
 
-var dynCall_iiiiid = Module["dynCall_iiiiid"] = function() {
+var dynCall_iiiiij = Module["dynCall_iiiiij"] = function() {
  return Module["asm"]["Gf"].apply(null, arguments);
 };
 
-var dynCall_iiiiijj = Module["dynCall_iiiiijj"] = function() {
+var dynCall_iiiiid = Module["dynCall_iiiiid"] = function() {
  return Module["asm"]["Hf"].apply(null, arguments);
 };
 
-var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = function() {
+var dynCall_iiiiijj = Module["dynCall_iiiiijj"] = function() {
  return Module["asm"]["If"].apply(null, arguments);
 };
 
-var dynCall_vffff = Module["dynCall_vffff"] = function() {
+var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = function() {
  return Module["asm"]["Jf"].apply(null, arguments);
 };
 
-var dynCall_vf = Module["dynCall_vf"] = function() {
+var dynCall_vffff = Module["dynCall_vffff"] = function() {
  return Module["asm"]["Kf"].apply(null, arguments);
 };
 
-var dynCall_viiiiiiii = Module["dynCall_viiiiiiii"] = function() {
+var dynCall_vf = Module["dynCall_vf"] = function() {
  return Module["asm"]["Lf"].apply(null, arguments);
 };
 
-var dynCall_viiiiiiiii = Module["dynCall_viiiiiiiii"] = function() {
+var dynCall_viiiiiiii = Module["dynCall_viiiiiiii"] = function() {
  return Module["asm"]["Mf"].apply(null, arguments);
 };
 
-var dynCall_vff = Module["dynCall_vff"] = function() {
+var dynCall_viiiiiiiii = Module["dynCall_viiiiiiiii"] = function() {
  return Module["asm"]["Nf"].apply(null, arguments);
 };
 
-var dynCall_vfi = Module["dynCall_vfi"] = function() {
+var dynCall_vff = Module["dynCall_vff"] = function() {
  return Module["asm"]["Of"].apply(null, arguments);
 };
 
-var dynCall_viif = Module["dynCall_viif"] = function() {
+var dynCall_vfi = Module["dynCall_vfi"] = function() {
  return Module["asm"]["Pf"].apply(null, arguments);
 };
 
-var dynCall_vif = Module["dynCall_vif"] = function() {
+var dynCall_viif = Module["dynCall_viif"] = function() {
  return Module["asm"]["Qf"].apply(null, arguments);
 };
 
-var dynCall_viff = Module["dynCall_viff"] = function() {
+var dynCall_vif = Module["dynCall_vif"] = function() {
  return Module["asm"]["Rf"].apply(null, arguments);
 };
 
-var dynCall_vifff = Module["dynCall_vifff"] = function() {
+var dynCall_viff = Module["dynCall_viff"] = function() {
  return Module["asm"]["Sf"].apply(null, arguments);
 };
 
-var dynCall_viffff = Module["dynCall_viffff"] = function() {
+var dynCall_vifff = Module["dynCall_vifff"] = function() {
  return Module["asm"]["Tf"].apply(null, arguments);
+};
+
+var dynCall_viffff = Module["dynCall_viffff"] = function() {
+ return Module["asm"]["Uf"].apply(null, arguments);
 };
 
 function invoke_ii(index, a1) {

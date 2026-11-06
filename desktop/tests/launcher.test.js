@@ -8,10 +8,14 @@ const launcherSource = fs.readFileSync(
   path.join(__dirname, "..", "www", "launcher.js"),
   "utf8",
 );
+const desktopConfig = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "neutralino.config.json"), "utf8"),
+);
 
 async function runLauncher(args) {
   let replacedUrl = "";
   let hydrated = false;
+  const windowActions = [];
   const context = {
     DesktopSettingsPersistence: {
       async hydrate() {
@@ -25,6 +29,17 @@ async function runLauncher(args) {
     },
     Neutralino: {
       init() {},
+      window: {
+        async center() {
+          windowActions.push("center");
+        },
+        async show() {
+          windowActions.push("show");
+        },
+        async unminimize() {
+          windowActions.push("unminimize");
+        },
+      },
     },
     window: {
       NL_ARGS: args,
@@ -38,8 +53,16 @@ async function runLauncher(args) {
 
   vm.runInNewContext(launcherSource, context);
   await new Promise((resolve) => setImmediate(resolve));
-  return { hydrated, replacedUrl };
+  return { hydrated, replacedUrl, windowActions };
 }
+
+test("restores the primary window to a visible on-screen position", async () => {
+  const result = await runLauncher(["replay-viewer-desktop.exe"]);
+
+  assert.deepEqual(result.windowActions, ["unminimize", "center", "show"]);
+  assert.equal(desktopConfig.modes.window.center, true);
+  assert.equal(desktopConfig.modes.window.useSavedState, false);
+});
 
 test("opens the bundled viewer through Neutralino's resource server", async () => {
   const result = await runLauncher(["replay-viewer-desktop.exe"]);

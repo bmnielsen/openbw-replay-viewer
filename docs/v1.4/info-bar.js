@@ -941,6 +941,9 @@ jQuery(document).ready( function($) {
 	$('#rv-rc-open-replay').on('click', function() {
 		open_replay_picker();
 	});
+	$('#rv-rc-download-replay').on('click', function() {
+		ReplayDownload.downloadCurrent();
+	});
 	$('#rv-rc-export-settings').on('click', function() {
 		open_export_settings_modal();
 	});

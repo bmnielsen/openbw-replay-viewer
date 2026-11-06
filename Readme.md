@@ -86,3 +86,16 @@ We are using an old version of emscripten (via its Docker image). tscmoo made an
 We will therefore stick with the old version of emscripten for the time being.
 
 The OpenBW files are pulled in via a Git submodule. The other dependencies, SDL header files and dlmalloc, are included in this repo as they are also old versions to ensure interoperability with the version of emscripten being used.
+
+## Unified local build
+
+From the sibling `openbw` repository, run `./scripts/build_replay_viewer.sh`
+to compile the web runtime and package the standalone viewer together. The build
+checks that the packaged web files match this repository's `docs/` files.
+Running `npm run build` inside `desktop/` repackages the current `docs/` files
+without recompiling the engine.
+
+On Windows, run `desktop/scripts/register-file-association.ps1` after the first
+build. It registers the executable in `desktop/dist/replay-viewer-desktop/`,
+which subsequent builds update in place. Existing user defaults for other apps
+may require choosing this viewer in Windows Default Apps.

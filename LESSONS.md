@@ -21,3 +21,14 @@
   in the application and receives only repository-controlled build paths, so
   install-time audit noise is disabled in `desktop/.npmrc` until Neutralino
   updates that dependency chain.
+
+- Windows may select either `rep_auto_file` or the executable's Applications ProgID for `.rep` through protected UserChoice. Repair both viewer registrations when relocating a build, notify Explorer, and test ShellExecute on a replay; launching the executable directly does not verify a file association.
+- Neutralino enables primary-window state restoration by default and can save
+  Windows' minimized sentinel coordinates (`32767, -32768`) as a normal window
+  position. Disable saved window state and explicitly unminimize, center, and
+  show this viewer at startup so later launches cannot remain off-screen.
+- Neutralino's window title does not brand its Windows executable. CLI 11.7.2
+  reads top-level `description` for FileDescription and `applicationName` for
+  ProductName; without them Task Manager shows the generic framework name.
+  Verify the built PE resources, not only the configuration. Register
+  FriendlyAppName for both owned replay handlers to label Windows Open with.

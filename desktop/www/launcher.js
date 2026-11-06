@@ -28,6 +28,9 @@
     setStatus("Opening bundled viewer…");
     try {
       await Neutralino.init();
+      await Neutralino.window.unminimize();
+      await Neutralino.window.center();
+      await Neutralino.window.show();
       await DesktopSettingsPersistence.hydrate();
       window.location.replace(viewerLaunchUrl());
     } catch (error) {

@@ -7768,6 +7768,7 @@ body.pregame-active #info-dock .info-dock-header {
   align-items: start; }
 
 #viewport-export .rv-rc-copy-link,
+#viewport-export .rv-rc-download-replay,
 #viewport-export .rv-rc-export,
 #viewport-export .rv-rc-open-replay,
 #viewport-export .rv-rc-export-settings {
@@ -7790,6 +7791,11 @@ body.pregame-active #info-dock .info-dock-header {
     line-height: 1; }
   #viewport-export .rv-rc-open-replay::before {
     content: "\f07b";
+    font-family: 'FontAwesome';
+    font-size: 18px;
+    line-height: 1; }
+  #viewport-export .rv-rc-download-replay::before {
+    content: "\f019";
     font-family: 'FontAwesome';
     font-size: 18px;
     line-height: 1; }
@@ -7817,6 +7823,21 @@ body.pregame-active #info-dock .info-dock-header {
     font-family: inherit;
     font-size: 16px;
     line-height: 38px; }
+  #viewport-export #rv-rc-open-replay {
+    grid-column: 1;
+    grid-row: 1; }
+  #viewport-export #rv-rc-download-replay {
+    grid-column: 2;
+    grid-row: 1; }
+  #viewport-export #rv-rc-copy-link {
+    grid-column: 1;
+    grid-row: 2; }
+  #viewport-export #rv-rc-export {
+    grid-column: 2;
+    grid-row: 2; }
+  #viewport-export #rv-rc-export-settings {
+    grid-column: 2;
+    grid-row: 3; }
 #zoom-buttons {
   grid-template-columns: repeat(2, 40px);
   grid-template-rows: repeat(3, 40px);
