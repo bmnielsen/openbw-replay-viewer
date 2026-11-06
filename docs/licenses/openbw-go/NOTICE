@@ -1,0 +1,16 @@
+openbw-go
+Copyright (C) 2026 Mariano Gappa
+
+The engine in package bwgame, and the code ported with it, is derived from
+OpenBW (https://github.com/OpenBW/openbw) at commit 4b046d5.
+
+OpenBW has no licence file (https://github.com/OpenBW/openbw/issues/17).
+This derived work is licensed under the GNU Lesser General Public License,
+version 3 (COPYING.LESSER, which supplements the GNU General Public License,
+version 3, in COPYING), in line with BWAPI, the project OpenBW comes from.
+
+If the author of OpenBW asks, the author of openbw-go will relicense or
+remove the derived code.
+
+No Blizzard Entertainment data is included. The engine needs the game data
+files of StarCraft: Brood War, which the user must supply.

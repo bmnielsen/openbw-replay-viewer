@@ -5,6 +5,12 @@
 Serve `docs/` with a static HTTP server. The published viewer is hosted at
 https://dgant.github.io/openbw-replay-viewer/.
 
+Browse for or drop StarCraft 1.16.1 or Remastered `.rep` files. Format detection
+is automatic and mixed-format playlists work without reloading the page.
+Remastered support is experimental and uses classic graphics; some maps or
+game versions may still diverge from original-game playback. Downloads preserve
+the original replay bytes. The desktop application uses this same loader.
+
 Loading a replay centers the view on the first player's starting position,
 including when automatic camera is disabled or another replay was paused.
 Your saved zoom is preserved; the camera is clamped at map edges.

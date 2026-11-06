@@ -3,12 +3,15 @@
 ## Purpose
 
 The project provides a browser-based and standalone desktop viewer for
-StarCraft: Brood War 1.16.1 replay files.
+StarCraft: Brood War 1.16.1 and experimental Remastered replay files.
 
 ## Web viewer
 
 - The static application is served from `docs/`.
 - Users can browse for or drag replay files into the viewer.
+- Detect replay formats automatically through all loading paths, including
+  URLs, playlists and desktop launches. Alternating formats must preserve
+  correct per-replay simulation settings and support rewind without a reload.
 - While a replay is loaded, users can download its original `.rep` bytes and
   filename from the top-right Download button.
 - A `rep` URL parameter loads a remotely fetchable replay.
