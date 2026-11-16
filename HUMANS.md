@@ -2,12 +2,38 @@
 
 ## Website
 
-Serve `docs/` with a static HTTP server. The published viewer is hosted at
-https://dgant.github.io/openbw-replay-viewer/.
+Serve `docs/` with a static HTTP server, or run `./serve.sh` for the Dockerized
+server. The published viewer is hosted at https://dgant.github.io/openbw-replay-viewer/.
+
+On Windows, start or stop the background local server with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start-local-server.ps1
+powershell -ExecutionPolicy Bypass -File .\stop-local-server.ps1
+```
+
+The browser and desktop viewer fetch game data from `https://dgant.github.io/mpqs`.
 
 Loading a replay centers the view on the first player's starting position,
 including when automatic camera is disabled or another replay was paused.
 Your saved zoom is preserved; the camera is clamped at map edges.
+
+Classic 1.16.1 and Remastered replays select separate engines automatically.
+Standard multiplayer replay playback is supported; built-in AI and some
+custom-map triggers are not implemented. Unsupported or malformed replays show
+an error while leaving the file picker usable without a page refresh.
+Both engines are maintained directly in
+the sibling `openbw` repository, with Remastered built from its classic engine
+and local compatibility changes. Additional terrain data, extracted from
+StarCraft: Remastered, is fetched from the MPQ site's `remastered/` directory
+only when loading a Remastered replay. You can switch formats
+without refreshing the page; settings and controls remain shared.
+
+Before publishing, run the sibling engine repository's source, native replay,
+and complete browser tests, including Firefox/WebKit engine lifecycle checks,
+then this repository's desktop tests and bundle verification. Check long games,
+repeated loads, seek/rewind, rendering, and failure recovery. Check independent
+simulation references for accuracy; reaching the last frame tests completion.
 
 ## Standalone desktop viewer
 
@@ -36,10 +62,11 @@ npm run build
 
 The Windows executable and its required `resources.neu` file are emitted under
 `desktop/dist/replay-viewer-desktop/`. Keep those two files together.
+The package includes both replay engines.
 
 The application appears as **StarCraft Replay Viewer** in Task Manager, window
 titles, executable properties, and Windows Open with (after registration).
-The executable filename remains `replay-viewer-desktop-win_x64.exe` for
+The executable filename is `replay-viewer-desktop-win_x64.exe` for
 compatibility. Close and reopen a running viewer after updating its build.
 Every desktop build verifies both the bundled web assets and the Windows
 executable's description/product name. To check the metadata separately:
@@ -82,3 +109,21 @@ To check Windows registration after running the registration script:
 This checks both handlers' display names, the legacy and current viewer
 commands, and the effective user choice. For end-to-end validation, open a `.rep` through Windows ShellExecute
 and verify that the maintained executable loads the replay.
+
+## Publishing
+
+Prepare the static site and desktop package from the development container:
+
+```bash
+/workspace/openbw/scripts/prepare_github_pages_site.sh
+```
+
+After local validation and approval to publish, run:
+
+```bash
+/workspace/openbw/scripts/publish_replay_viewer_pages.sh
+```
+
+The publish script requires `GH_TOKEN`, pushes this repository's `main` branch,
+and configures GitHub Pages to serve `/docs`. It does not publish the currently
+checked-out feature branch automatically.

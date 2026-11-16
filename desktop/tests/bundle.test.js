@@ -22,6 +22,16 @@ test("bundle verification accepts matching assets and rejects stale or missing a
     execFileSync("git", ["add", "docs"], { cwd: repo });
     await asar.createPackage(input, path.join(dist, "resources.neu"));
     assert.equal(verifyBundle(desktop), 1);
+    const stray = path.join(input, "www/viewer/extra.txt");
+    fs.writeFileSync(stray, "unexpected");
+    const extraArchive = path.join(dist, "extra.neu");
+    await asar.createPackage(input, extraArchive);
+    fs.copyFileSync(extraArchive, path.join(dist, "resources.neu"));
+    asar.uncacheAll();
+    assert.throws(() => verifyBundle(desktop), /Unexpected bundled file: www\/viewer\/extra\.txt/);
+    fs.unlinkSync(stray);
+    await asar.createPackage(input, path.join(dist, "resources.neu"));
+    asar.uncacheAll();
     fs.writeFileSync(path.join(repo, "docs/index.html"), "newer");
     assert.throws(() => verifyBundle(desktop), /differs.*docs\/index.html/);
     fs.writeFileSync(path.join(repo, "docs/another.js"), "new");
