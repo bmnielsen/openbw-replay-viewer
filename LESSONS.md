@@ -1,4 +1,12 @@
-# Lessons
+# Engineering Lessons
+
+- Keep replay engine lifetimes explicit: the classic and Remastered engines
+  share the DOM but not their WASM memory or game-data buffers. Pause the old
+  engine and unregister its input handlers before replacing the active Module.
+  Exercise classic-to-Remastered-to-classic transitions, not only isolated loads.
+- Loading failures can occur after the file picker has been replaced by status
+  text. Restore the picker and stop the failed runtime and audio before showing
+  an error. Test a second load without refreshing, including same-format loads.
 
 - A Neutralino application should keep bundled pages on its local resource
   server. Navigating from that origin to a `file://` viewer can be blocked by
@@ -16,11 +24,9 @@
   Stat the directory and create it only when it is missing.
 - On Windows-mounted filesystems, replacing the contents of a synchronized
   directory is more reliable than deleting and recreating the directory itself.
-- Neutralino CLI 11.7.2 currently carries a high-severity denial-of-service
-  advisory through its build-only glob stack. The affected code is not shipped
-  in the application and receives only repository-controlled build paths, so
-  install-time audit noise is disabled in `desktop/.npmrc` until Neutralino
-  updates that dependency chain.
+- Neutralino CLI dependencies are build tools, not the shipped runtime. Review
+  their exposure separately from bundled code. `desktop/.npmrc` suppresses
+  install-time audit output; run `npm audit` when updating locked dependencies.
 
 - Windows may select either `rep_auto_file` or the executable's Applications ProgID for `.rep` through protected UserChoice. Repair both viewer registrations when relocating a build, notify Explorer, and test ShellExecute on a replay; launching the executable directly does not verify a file association.
 - Neutralino enables primary-window state restoration by default and can save

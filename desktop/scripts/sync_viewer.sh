@@ -13,6 +13,12 @@ fi
 mkdir -p "${TARGET_DIR}"
 shopt -s dotglob nullglob
 rm -rf "${TARGET_DIR}"/*
-cp -R "${SOURCE_DIR}/." "${TARGET_DIR}/"
+if [[ -n "$(git -C "${ROOT_DIR}/.." ls-files --cached --ignored --exclude-from=.gitignore -- docs)" ]]; then
+  echo "Ignored file tracked in docs/" >&2
+  exit 1
+fi
+git -C "${SOURCE_DIR}" ls-files -z -- . |
+  tar -C "${SOURCE_DIR}" -cf - --no-recursion --null -T - |
+  tar -C "${TARGET_DIR}" -xf -
 
 echo "Synced ${SOURCE_DIR} -> ${TARGET_DIR}"

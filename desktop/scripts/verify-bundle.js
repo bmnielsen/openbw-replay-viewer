@@ -7,8 +7,20 @@ function verifyBundle(root = path.resolve(__dirname, "..")) {
   const repo = path.resolve(root, "..");
   const archive = path.join(root, "dist/replay-viewer-desktop/resources.neu");
   const { header, headerSize } = asar.getRawHeader(archive);
-  const files = execFileSync("git", ["ls-files", "-z", "docs"], { cwd: repo })
-    .toString().split("\0").filter(file => file && !file.endsWith(".rep"));
+  const tracked = execFileSync("git", ["ls-files", "-z", "docs", "desktop/www"], { cwd: repo })
+    .toString().split("\0").filter(Boolean);
+  const files = tracked.filter(file => file.startsWith("docs/") && !file.endsWith(".rep"));
+  const expected = new Set(["neutralino.config.json", "www/neutralino.js",
+    ...tracked.filter(file => file.startsWith("desktop/www/")).map(file => file.slice("desktop/".length)),
+    ...files.map(file => "www/viewer/" + file.slice("docs/".length))]);
+  function checkEntries(node, prefix) {
+    for (const [name, entry] of Object.entries(node.files || {})) {
+      const file = prefix + name;
+      if (entry.files) checkEntries(entry, file + "/");
+      else if (!expected.has(file)) throw new Error(`Unexpected bundled file: ${file}`);
+    }
+  }
+  checkEntries(header, "");
   const fd = fs.openSync(archive, "r");
   let count = 0;
   try {

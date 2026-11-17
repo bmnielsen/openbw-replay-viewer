@@ -3,11 +3,17 @@
 ## Purpose
 
 The project provides a browser-based and standalone desktop viewer for
-StarCraft: Brood War 1.16.1 replay files.
+StarCraft: Brood War 1.16.1 and Remastered multiplayer replay files.
 
 ## Web viewer
 
 - The static application is served from `docs/`.
+- Detect the replay format and select an isolated classic or Remastered C++/WASM
+  engine. The engine repository maintains both simulations directly; loading a
+  Remastered replay must not change classic simulation behavior.
+- Switching engines must preserve settings and functional controls, stop the
+  old simulation loop, and detach the old engine's event listeners.
+- Load extended terrain data only for Remastered.
 - Users can browse for or drag replay files into the viewer.
 - While a replay is loaded, users can download its original `.rep` bytes and
   filename from the top-right Download button.
@@ -15,7 +21,11 @@ StarCraft: Brood War 1.16.1 replay files.
 - Each replay opens centered on the first participant's starting location in
   player-slot order, with map-edge clamping. This happens before playback,
   regardless of automatic-camera preference, and respects restored zoom.
-- Game data files are loaded from the configured hosted MPQ source.
+- Both clients load game data from the configured asset host.
+- Malformed or unsupported replays must show a readable error, stop simulation
+  and audio, and leave another replay loadable without a page refresh. Asset
+  download failures must be retryable. Built-in AI and unimplemented custom-map
+  triggers are outside supported playback.
 
 ## Standalone viewer
 
@@ -48,6 +58,8 @@ StarCraft: Brood War 1.16.1 replay files.
 - Launcher URL and desktop settings persistence behavior are covered by focused
   Node tests.
 - A release build must complete without new errors.
+- Release claims must be supported by full regression results and clearly
+  distinguish completion/rewind checks from independent fidelity comparisons.
 - A packaged Windows build must open an associated replay, render the game and
   HUD, advance playback, and leave the Neutralino log free of errors.
 

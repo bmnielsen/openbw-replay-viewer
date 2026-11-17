@@ -1,0 +1,3 @@
+# Preserve generated Emscripten output, including its template whitespace.
+docs/v1.4/openbw.js -whitespace
+docs/v1.4/remastered/openbw.js -whitespace
